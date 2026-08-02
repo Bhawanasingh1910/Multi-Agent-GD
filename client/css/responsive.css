@@ -1,0 +1,227 @@
+/* ==========================================
+   RESPONSIVE DESIGN
+   Mobile First Breakpoints
+========================================== */
+
+
+/* ========= TABLETS ========= */
+
+@media (max-width:992px){
+
+/* Navbar */
+
+.navbar{
+    flex-direction:column;
+    gap:20px;
+    padding:20px;
+}
+
+.nav-links{
+    flex-wrap:wrap;
+    justify-content:center;
+}
+
+
+/* Hero */
+
+.hero{
+    flex-direction:column;
+    text-align:center;
+}
+
+.hero-left,
+.hero-right{
+    width:100%;
+}
+
+.hero-right img{
+    width:80%;
+}
+
+
+/* Common Grids */
+
+.feature-grid,
+.steps,
+.testimonial-container,
+.action-grid,
+.progress-grid,
+.performance-grid,
+.skill-grid,
+.metrics,
+.summary-grid,
+.history-summary,
+.achievement-grid{
+    grid-template-columns:repeat(2,1fr);
+}
+
+
+/* Create Discussion */
+
+.create-discussion{
+    flex-direction:column;
+}
+
+.settings-card,
+.ai-config,
+.summary-card{
+    width:100%;
+}
+
+
+/* Discussion */
+
+.discussion-container{
+    flex-direction:column;
+}
+
+.participants-panel,
+.transcript-panel,
+.discussion-info{
+    width:100%;
+}
+
+}
+
+
+/* ========= MOBILE ========= */
+
+@media (max-width:768px){
+
+body{
+    font-size:15px;
+}
+
+
+/* Navbar */
+
+.navbar{
+    flex-direction:column;
+}
+
+.nav-links{
+    flex-direction:column;
+    align-items:center;
+}
+
+.nav-buttons{
+    width:100%;
+    display:flex;
+    justify-content:center;
+    gap:15px;
+}
+
+
+/* Hero */
+
+.hero{
+    padding:60px 20px;
+}
+
+.hero h1{
+    font-size:2rem;
+}
+
+.hero-buttons{
+    flex-direction:column;
+}
+
+.hero-stats{
+    flex-direction:column;
+    gap:20px;
+}
+
+
+/* All Grid Sections */
+
+.feature-grid,
+.steps,
+.testimonial-container,
+.action-grid,
+.progress-grid,
+.performance-grid,
+.skill-grid,
+.metrics,
+.summary-grid,
+.history-summary,
+.achievement-grid{
+    grid-template-columns:1fr;
+}
+
+
+/* Dashboard Table */
+
+table{
+    display:block;
+    overflow-x:auto;
+}
+
+
+/* History */
+
+.history-controls{
+    grid-template-columns:1fr;
+}
+
+
+/* Profile */
+
+.profile-header img{
+    width:120px;
+    height:120px;
+}
+
+
+/* Buttons */
+
+button{
+    width:100%;
+}
+
+}
+
+
+/* ========= SMALL MOBILE ========= */
+
+@media (max-width:480px){
+
+h1{
+    font-size:1.8rem;
+}
+
+h2{
+    font-size:1.4rem;
+}
+
+.hero{
+    padding:40px 15px;
+}
+
+section{
+    padding:50px 15px;
+}
+
+.navbar{
+    padding:15px;
+}
+
+.logo h2{
+    font-size:1.3rem;
+}
+
+.hero-right img{
+    width:100%;
+}
+
+input,
+select,
+textarea{
+    width:100%;
+}
+
+button{
+    font-size:15px;
+    padding:12px;
+}
+
+}

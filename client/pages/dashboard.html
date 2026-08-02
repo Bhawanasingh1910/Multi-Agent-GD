@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard | Multi-Agent GD</title>
+
+    <!-- CSS -->
+
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/pages/dashboard.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+
+    <!-- Google Font -->
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+
+    <!-- Font Awesome -->
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<header>
+
+    <nav class="navbar">
+
+        <div class="logo">
+
+            <h2>Multi-Agent GD</h2>
+
+        </div>
+
+        <ul class="nav-links">
+
+            <li>
+
+                <a href="dashboard.html"
+                   id="dashboard-link">
+
+                    Dashboard
+
+                </a>
+
+            </li>
+
+            <li>
+
+                <a href="history.html"
+                   id="history-link">
+
+                    History
+
+                </a>
+
+            </li>
+
+            <li>
+
+                <a href="feedback.html"
+                   id="feedback-link">
+
+                    Feedback
+
+                </a>
+
+            </li>
+
+            <li>
+
+                <a href="profile.html"
+                   id="profile-link">
+
+                    Profile
+
+                </a>
+
+            </li>
+
+        </ul>
+
+        <div class="profile">
+
+            <img src="../assets/images/default.png"
+                 alt="default">
+
+            <span id="username">
+
+                Guest
+
+            </span>
+
+        </div>
+
+    </nav>
+
+</header>
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <h1>
+
+            Welcome Back 👋
+
+        </h1>
+
+        <p>
+
+            Ready to improve your communication today?
+
+            Start a new AI-powered Group Discussion.
+
+        </p>
+
+        <button id="start-discussion-btn">
+
+            Start New Discussion
+
+        </button>
+
+    </div>
+
+</section>
+
+<!-- ================= STATS ================= -->
+
+<section class="stats">
+
+    <div class="stat-card">
+
+        <i class="fa-solid fa-comments"></i>
+
+        <h2 id="discussion-count">
+
+            18
+
+        </h2>
+
+        <p>
+
+            Discussions Completed
+
+        </p>
+
+    </div>
+
+    <div class="stat-card">
+
+        <i class="fa-solid fa-chart-line"></i>
+
+        <h2 id="average-score">
+
+            82%
+
+        </h2>
+
+        <p>
+
+            Average Score
+
+        </p>
+
+    </div>
+
+    <div class="stat-card">
+
+        <i class="fa-solid fa-fire"></i>
+
+        <h2 id="practice-streak">
+
+            6 Days
+
+        </h2>
+
+        <p>
+
+            Practice Streak
+
+        </p>
+
+    </div>
+
+    <div class="stat-card">
+
+        <i class="fa-solid fa-clock"></i>
+
+        <h2 id="practice-time">
+
+            4.8 hrs
+
+        </h2>
+
+        <p>
+
+            Total Practice Time
+
+        </p>
+
+    </div>
+
+</section>
+
+<!-- ================= QUICK ACTIONS ================= -->
+
+<section class="quick-actions">
+
+    <h2>Quick Actions</h2>
+
+    <div class="action-grid">
+
+        <div class="action-card" id="start-card">
+
+            <i class="fa-solid fa-plus"></i>
+
+            <h3>Start Discussion</h3>
+
+            <p>
+
+                Create a new AI Group Discussion.
+
+            </p>
+
+        </div>
+
+        <div class="action-card" id="history-card">
+
+            <i class="fa-solid fa-history"></i>
+
+            <h3>History</h3>
+
+            <p>
+
+                View your previous discussions.
+
+            </p>
+
+        </div>
+
+        <div class="action-card" id="feedback-card">
+
+            <i class="fa-solid fa-chart-column"></i>
+
+            <h3>Feedback</h3>
+
+            <p>
+
+                Review your AI performance reports.
+
+            </p>
+
+        </div>
+
+        <div class="action-card" id="profile-card">
+
+            <i class="fa-solid fa-user"></i>
+
+            <h3>Profile</h3>
+
+            <p>
+
+                Manage your account settings.
+
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= RECENT DISCUSSIONS ================= -->
+
+<section class="recent-discussions">
+
+    <h2>
+
+        Recent Discussions
+
+    </h2>
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>Topic</th>
+
+                <th>Date</th>
+
+                <th>Duration</th>
+
+                <th>Score</th>
+
+                <th>View</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            <tr>
+
+                <td>AI in Education</td>
+
+                <td>27 Jul</td>
+
+                <td>10 Min</td>
+
+                <td>84%</td>
+
+                <td>
+
+                    <button class="open-report-btn">
+
+                        Open
+
+                    </button>
+
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>Remote Work</td>
+
+                <td>25 Jul</td>
+
+                <td>15 Min</td>
+
+                <td>79%</td>
+
+                <td>
+
+                    <button class="open-report-btn">
+
+                        Open
+
+                    </button>
+
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>Electric Vehicles</td>
+
+                <td>23 Jul</td>
+
+                <td>20 Min</td>
+
+                <td>87%</td>
+
+                <td>
+
+                    <button class="open-report-btn">
+
+                        Open
+
+                    </button>
+
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</section>
+
+<!-- ================= PROGRESS ================= -->
+
+<section class="progress">
+
+    <h2>
+
+        Progress Summary
+
+    </h2>
+
+    <div class="progress-grid">
+
+        <div class="progress-card">
+
+            <h3>
+
+                Confidence
+
+            </h3>
+
+            <p id="confidence-score">
+
+                83%
+
+            </p>
+
+        </div>
+
+        <div class="progress-card">
+
+            <h3>
+
+                Grammar
+
+            </h3>
+
+            <p id="grammar-score">
+
+                91%
+
+            </p>
+
+        </div>
+
+        <div class="progress-card">
+
+            <h3>
+
+                Vocabulary
+
+            </h3>
+
+            <p id="vocabulary-score">
+
+                76%
+
+            </p>
+
+        </div>
+
+        <div class="progress-card">
+
+            <h3>
+
+                Fluency
+
+            </h3>
+
+            <p id="fluency-score">
+
+                88%
+
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= RECENT FEEDBACK ================= -->
+
+<section class="feedback">
+
+    <h2>
+
+        Latest Feedback
+
+    </h2>
+
+    <div class="feedback-card">
+
+        <h3>
+
+            Great Progress! 🎉
+
+        </h3>
+
+        <p>
+
+            Your confidence has improved by 12%
+            compared to your last discussion.
+
+        </p>
+
+        <button id="view-report-btn">
+
+            View Full Report
+
+        </button>
+
+    </div>
+
+</section>
+
+<!-- ================= UPCOMING FEATURES ================= -->
+
+<section class="upcoming">
+
+    <h2>
+
+        Coming Soon
+
+    </h2>
+
+    <div class="coming-grid">
+
+        <div class="coming-card">
+
+            <i class="fa-solid fa-video"></i>
+
+            <h3>
+
+                Video Discussion
+
+            </h3>
+
+            <p>
+
+                Participate in AI-powered video group discussions with facial expression analysis.
+
+            </p>
+
+        </div>
+
+        <div class="coming-card">
+
+            <i class="fa-solid fa-face-smile"></i>
+
+            <h3>
+
+                Emotion Detection
+
+            </h3>
+
+            <p>
+
+                AI will analyze your confidence and emotions while speaking.
+
+            </p>
+
+        </div>
+
+        <div class="coming-card">
+
+            <i class="fa-solid fa-trophy"></i>
+
+            <h3>
+
+                Leaderboard
+
+            </h3>
+
+            <p>
+
+                Compete with other students and track your communication ranking.
+
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <p>
+
+        © 2026 Multi-Agent GD. All Rights Reserved.
+
+    </p>
+
+</footer>
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script src="../js/main.js"></script>
+
+<script src="../js/pages/dashboard.js"></script>
+
+</body>
+
+</html>

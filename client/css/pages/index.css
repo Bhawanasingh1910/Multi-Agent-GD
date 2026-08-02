@@ -1,0 +1,307 @@
+/* =====================================================
+   index.css
+   Landing Page Styles
+=====================================================*/
+
+
+/*====================================
+  HERO
+====================================*/
+
+.hero{
+
+    background:var(--hero-gradient);
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:4rem;
+
+    min-height:calc(100vh - var(--navbar-height));
+
+}
+
+.hero-left{
+
+    flex:1;
+
+}
+
+.hero-left h1{
+
+    margin:25px 0;
+
+    max-width:650px;
+
+}
+
+.hero-left h1 span{
+
+    color:var(--primary-color);
+
+}
+
+.hero-left p{
+
+    max-width:600px;
+
+    margin-bottom:35px;
+
+}
+
+.hero-buttons{
+
+    display:flex;
+
+    gap:20px;
+
+    margin-bottom:50px;
+
+}
+
+.hero-right{
+
+    flex:1;
+
+    display:flex;
+
+    justify-content:center;
+
+}
+
+.hero-right img{
+
+    max-width:500px;
+
+    animation:float 4s ease-in-out infinite;
+
+}
+
+
+
+/*====================================
+  HERO STATS
+====================================*/
+
+.hero-stats{
+
+    display:flex;
+
+    gap:50px;
+
+}
+
+.hero-stats div{
+
+    text-align:center;
+
+}
+
+.hero-stats h3{
+
+    color:var(--primary-color);
+
+    margin-bottom:5px;
+
+}
+
+.hero-stats p{
+
+    font-size:var(--font-size-sm);
+
+}
+
+
+
+/*====================================
+  HOW IT WORKS
+====================================*/
+
+.how-it-works{
+
+    background:var(--surface-color);
+
+}
+
+.steps{
+
+    margin-top:60px;
+
+}
+
+
+
+/*====================================
+  FEATURES
+====================================*/
+
+.features{
+
+    background:var(--background-color);
+
+}
+
+.feature-grid{
+
+    margin-top:60px;
+
+}
+
+.feature-card{
+
+background:white;
+
+border:1px solid var(--border-light);
+
+box-shadow:var(--shadow-md);
+
+}
+
+
+
+/*====================================
+  TESTIMONIALS
+====================================*/
+
+.testimonials{
+
+    background:var(--surface-color);
+
+}
+
+.testimonial-card{
+
+    text-align:center;
+
+}
+
+.testimonial-card p{
+
+    font-style:italic;
+
+    margin-bottom:20px;
+
+}
+
+.testimonial-card h4{
+
+    color:var(--primary-color);
+
+}
+
+
+
+/*====================================
+  FAQ
+====================================*/
+
+.faq{
+
+    background:var(--background-color);
+
+}
+
+.faq-container{
+
+    max-width:900px;
+
+    margin:auto;
+
+}
+
+
+
+/*====================================
+  CTA
+====================================*/
+
+.cta{
+
+    overflow:hidden;
+
+    position:relative;
+
+}
+
+.cta h2{
+
+    margin-bottom:20px;
+
+}
+
+.cta p{
+
+    max-width:700px;
+
+    margin:auto;
+
+}
+
+
+
+/*====================================
+  SIMPLE ANIMATIONS
+====================================*/
+
+@keyframes float{
+
+    0%{
+
+        transform:translateY(0px);
+
+    }
+
+    50%{
+
+        transform:translateY(-15px);
+
+    }
+
+    100%{
+
+        transform:translateY(0px);
+
+    }
+
+}
+
+
+
+/*====================================
+  HOVER EFFECTS
+====================================*/
+
+.step-card:hover i,
+
+.feature-card:hover i{
+
+    transform:scale(1.15);
+
+    transition:var(--transition-normal);
+
+}
+
+.hero-buttons button:hover{
+
+    transform:translateY(-4px);
+
+}
+
+
+
+/*====================================
+  SPACING
+====================================*/
+
+.hero,
+.features,
+.how-it-works,
+.testimonials,
+.faq{
+
+    position:relative;
+
+}

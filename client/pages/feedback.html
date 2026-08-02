@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Discussion Feedback | Multi-Agent GD</title>
+
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/pages/feedback.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+
+    <!-- Google Font -->
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+
+    <!-- Font Awesome -->
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+</head>
+
+<body>
+
+<!-- ===================================== -->
+<!-- NAVBAR -->
+<!-- ===================================== -->
+
+<header>
+
+    <nav class="navbar">
+
+        <div class="logo">
+
+            <h2>Multi-Agent GD</h2>
+
+        </div>
+
+        <ul class="nav-links">
+
+            <li>
+
+                <a href="dashboard.html">
+
+                    Dashboard
+
+                </a>
+
+            </li>
+
+            <li>
+
+                <a href="history.html">
+
+                    History
+
+                </a>
+
+            </li>
+
+            <li>
+
+                <a href="profile.html">
+
+                    Profile
+
+                </a>
+
+            </li>
+
+        </ul>
+
+    </nav>
+
+</header>
+
+<!-- ===================================== -->
+<!-- PAGE HEADER -->
+<!-- ===================================== -->
+
+<section class="feedback-header">
+
+    <span class="page-badge">
+
+        AI Performance Analysis
+
+    </span>
+
+    <h1 id="feedback-title">
+
+        Discussion Feedback Report
+
+    </h1>
+
+    <p id="feedback-subtitle">
+
+        Analyze your communication skills and track your improvement after every discussion.
+
+    </p>
+
+</section>
+
+<!-- ===================================== -->
+<!-- OVERALL SCORE -->
+<!-- ===================================== -->
+
+<section class="overall-score">
+
+    <div class="score-card">
+
+        <div class="score-left">
+
+            <span class="score-label">
+
+                Overall Performance
+
+            </span>
+
+            <h2 id="overall-grade">
+
+                Excellent 🎉
+
+            </h2>
+
+            <p id="overall-message">
+
+                Great job! Your communication skills are improving consistently.
+
+            </p>
+
+        </div>
+
+        <div class="score-right">
+
+            <div class="score-circle">
+
+                <span id="overall-score">
+
+                    86%
+
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ===================================== -->
+<!-- PERFORMANCE METRICS -->
+<!-- ===================================== -->
+
+<section class="metrics-section">
+
+    <h2>
+
+        Performance Breakdown
+
+    </h2>
+
+    <div class="metrics-grid">
+
+        <!-- Fluency -->
+
+        <div class="metric-card">
+
+            <i class="fa-solid fa-comments"></i>
+
+            <h3>
+
+                Fluency
+
+            </h3>
+
+            <h2 id="fluency-score">
+
+                88%
+
+            </h2>
+
+            <div class="progress-bar">
+
+                <div id="fluency-bar"
+                     class="progress-fill"
+                     style="width:88%">
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Grammar -->
+
+        <div class="metric-card">
+
+            <i class="fa-solid fa-book"></i>
+
+            <h3>
+
+                Grammar
+
+            </h3>
+
+            <h2 id="grammar-score">
+
+                91%
+
+            </h2>
+
+            <div class="progress-bar">
+
+                <div id="grammar-bar"
+                     class="progress-fill"
+                     style="width:91%">
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Confidence -->
+
+        <div class="metric-card">
+
+            <i class="fa-solid fa-bullhorn"></i>
+
+            <h3>
+
+                Confidence
+
+            </h3>
+
+            <h2 id="confidence-score">
+
+                82%
+
+            </h2>
+
+            <div class="progress-bar">
+
+                <div id="confidence-bar"
+                     class="progress-fill"
+                     style="width:82%">
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Vocabulary -->
+
+        <div class="metric-card">
+
+            <i class="fa-solid fa-language"></i>
+
+            <h3>
+
+                Vocabulary
+
+            </h3>
+
+            <h2 id="vocabulary-score">
+
+                84%
+
+            </h2>
+
+            <div class="progress-bar">
+
+                <div id="vocabulary-bar"
+                     class="progress-fill"
+                     style="width:84%">
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Speaking Speed -->
+
+        <div class="metric-card">
+
+            <i class="fa-solid fa-gauge-high"></i>
+
+            <h3>
+
+                Speaking Speed
+
+            </h3>
+
+            <h2 id="speed-score">
+
+                90%
+
+            </h2>
+
+            <div class="progress-bar">
+
+                <div id="speed-bar"
+                     class="progress-fill"
+                     style="width:90%">
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Topic Relevance -->
+
+        <div class="metric-card">
+
+            <i class="fa-solid fa-lightbulb"></i>
+
+            <h3>
+
+                Topic Relevance
+
+            </h3>
+
+            <h2 id="topic-score">
+
+                89%
+
+            </h2>
+
+            <div class="progress-bar">
+
+                <div id="topic-bar"
+                     class="progress-fill"
+                     style="width:89%">
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Participation -->
+
+        <div class="metric-card">
+
+            <i class="fa-solid fa-users"></i>
+
+            <h3>
+
+                Participation
+
+            </h3>
+
+            <h2 id="participation-score">
+
+                87%
+
+            </h2>
+
+            <div class="progress-bar">
+
+                <div id="participation-bar"
+                     class="progress-fill"
+                     style="width:87%">
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- AI Interaction -->
+
+        <div class="metric-card">
+
+            <i class="fa-solid fa-robot"></i>
+
+            <h3>
+
+                AI Interaction
+
+            </h3>
+
+            <h2 id="interaction-score">
+
+                92%
+
+            </h2>
+
+            <div class="progress-bar">
+
+                <div id="interaction-bar"
+                     class="progress-fill"
+                     style="width:92%">
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ===================================== -->
+<!-- SESSION SUMMARY -->
+<!-- ===================================== -->
+
+<section class="session-summary">
+
+    <h2>
+
+        Session Summary
+
+    </h2>
+
+    <div class="summary-grid">
+
+        <div class="summary-card">
+
+            <i class="fa-solid fa-lightbulb"></i>
+
+            <h3>
+
+                Topic
+
+            </h3>
+
+            <p id="session-topic">
+
+                Artificial Intelligence
+
+            </p>
+
+        </div>
+
+        <div class="summary-card">
+
+            <i class="fa-solid fa-clock"></i>
+
+            <h3>
+
+                Duration
+
+            </h3>
+
+            <p id="session-duration">
+
+                10 Minutes
+
+            </p>
+
+        </div>
+
+        <div class="summary-card">
+
+            <i class="fa-solid fa-language"></i>
+
+            <h3>
+
+                Language
+
+            </h3>
+
+            <p id="session-language">
+
+                English
+
+            </p>
+
+        </div>
+
+        <div class="summary-card">
+
+            <i class="fa-solid fa-users"></i>
+
+            <h3>
+
+                Participants
+
+            </h3>
+
+            <p id="session-participants">
+
+                5
+
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ===================================== -->
+<!-- COMMUNICATION STATISTICS -->
+<!-- ===================================== -->
+
+<section class="speaking-stats">
+
+    <h2>
+
+        Communication Statistics
+
+    </h2>
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+
+            <i class="fa-solid fa-microphone-lines"></i>
+
+            <h3>
+
+                Speaking Time
+
+            </h3>
+
+            <h2 id="speaking-time">
+
+                03:42
+
+            </h2>
+
+        </div>
+
+        <div class="stat-card">
+
+            <i class="fa-solid fa-file-word"></i>
+
+            <h3>
+
+                Total Words
+
+            </h3>
+
+            <h2 id="total-words">
+
+                524
+
+            </h2>
+
+        </div>
+
+        <div class="stat-card">
+
+            <i class="fa-solid fa-gauge-high"></i>
+
+            <h3>
+
+                Words / Minute
+
+            </h3>
+
+            <h2 id="words-per-minute">
+
+                142
+
+            </h2>
+
+        </div>
+
+        <div class="stat-card">
+
+            <i class="fa-solid fa-circle-question"></i>
+
+            <h3>
+
+                AI Questions Answered
+
+            </h3>
+
+            <h2 id="questions-answered">
+
+                9
+
+            </h2>
+
+        </div>
+
+        <div class="stat-card">
+
+            <i class="fa-solid fa-comments"></i>
+
+            <h3>
+
+                Total Responses
+
+            </h3>
+
+            <h2 id="response-count">
+
+                18
+
+            </h2>
+
+        </div>
+
+        <div class="stat-card">
+
+            <i class="fa-solid fa-hand"></i>
+
+            <h3>
+
+                Interruptions
+
+            </h3>
+
+            <h2 id="interruptions">
+
+                1
+
+            </h2>
+
+        </div>
+
+        <div class="stat-card">
+
+            <i class="fa-solid fa-volume-high"></i>
+
+            <h3>
+
+                Average Pause
+
+            </h3>
+
+            <h2 id="pause-time">
+
+                1.4 sec
+
+            </h2>
+
+        </div>
+
+        <div class="stat-card">
+
+            <i class="fa-solid fa-star"></i>
+
+            <h3>
+
+                Vocabulary Level
+
+            </h3>
+
+            <h2 id="vocabulary-level">
+
+                Advanced
+
+            </h2>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ===================================== -->
+<!-- FILLER WORD ANALYSIS -->
+<!-- ===================================== -->
+
+<section class="filler-analysis">
+
+    <h2>
+
+        Filler Word Analysis
+
+    </h2>
+
+    <div class="analysis-card">
+
+        <div class="analysis-item">
+
+            <span>
+
+                Total Filler Words
+
+            </span>
+
+            <strong id="filler-total">
+
+                6
+
+            </strong>
+
+        </div>
+
+        <div class="analysis-item">
+
+            <span>
+
+                "Um"
+
+            </span>
+
+            <strong id="um-count">
+
+                2
+
+            </strong>
+
+        </div>
+
+        <div class="analysis-item">
+
+            <span>
+
+                "Uh"
+
+            </span>
+
+            <strong id="uh-count">
+
+                1
+
+            </strong>
+
+        </div>
+
+        <div class="analysis-item">
+
+            <span>
+
+                "Like"
+
+            </span>
+
+            <strong id="like-count">
+
+                2
+
+            </strong>
+
+        </div>
+
+        <div class="analysis-item">
+
+            <span>
+
+                "You Know"
+
+            </span>
+
+            <strong id="know-count">
+
+                1
+
+            </strong>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ===================================== -->
+<!-- VOCABULARY SUGGESTIONS -->
+<!-- ===================================== -->
+
+<section class="vocabulary-section">
+
+    <h2>
+
+        Vocabulary Improvement
+
+    </h2>
+
+    <div class="vocabulary-grid">
+
+        <div class="word-card">
+
+            <h3>
+
+                Used
+
+            </h3>
+
+            <p id="word1-used">
+
+                Good
+
+            </p>
+
+            <h4>
+
+                Better Alternative
+
+            </h4>
+
+            <p id="word1-better">
+
+                Excellent
+
+            </p>
+
+        </div>
+
+        <div class="word-card">
+
+            <h3>
+
+                Used
+
+            </h3>
+
+            <p id="word2-used">
+
+                Big
+
+            </p>
+
+            <h4>
+
+                Better Alternative
+
+            </h4>
+
+            <p id="word2-better">
+
+                Significant
+
+            </p>
+
+        </div>
+
+        <div class="word-card">
+
+            <h3>
+
+                Used
+
+            </h3>
+
+            <p id="word3-used">
+
+                Thing
+
+            </p>
+
+            <h4>
+
+                Better Alternative
+
+            </h4>
+
+            <p id="word3-better">
+
+                Aspect
+
+            </p>
+
+        </div>
+
+        <div class="word-card">
+
+            <h3>
+
+                Used
+
+            </h3>
+
+            <p id="word4-used">
+
+                Help
+
+            </p>
+
+            <h4>
+
+                Better Alternative
+
+            </h4>
+
+            <p id="word4-better">
+
+                Facilitate
+
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ===================================== -->
+<!-- STRENGTHS & IMPROVEMENTS -->
+<!-- ===================================== -->
+
+<section class="feedback-columns">
+
+    <!-- Strengths -->
+
+    <div class="feedback-card">
+
+        <h2>
+
+            <i class="fa-solid fa-circle-check"></i>
+
+            Your Strengths
+
+        </h2>
+
+        <ul id="strength-list">
+
+            <li>
+
+                Confident communication throughout the discussion.
+
+            </li>
+
+            <li>
+
+                Maintained good eye-contact (estimated).
+
+            </li>
+
+            <li>
+
+                Responded logically to AI participants.
+
+            </li>
+
+            <li>
+
+                Strong grammar and sentence structure.
+
+            </li>
+
+            <li>
+
+                Stayed relevant to the discussion topic.
+
+            </li>
+
+        </ul>
+
+    </div>
+
+    <!-- Improvements -->
+
+    <div class="feedback-card">
+
+        <h2>
+
+            <i class="fa-solid fa-chart-line"></i>
+
+            Areas to Improve
+
+        </h2>
+
+        <ul id="improvement-list">
+
+            <li>
+
+                Reduce filler words while speaking.
+
+            </li>
+
+            <li>
+
+                Add more real-world examples.
+
+            </li>
+
+            <li>
+
+                Improve response speed.
+
+            </li>
+
+            <li>
+
+                Use more professional vocabulary.
+
+            </li>
+
+            <li>
+
+                Involve quieter participants more often.
+
+            </li>
+
+        </ul>
+
+    </div>
+
+</section>
+
+<!-- ===================================== -->
+<!-- AI MENTOR REPORT -->
+<!-- ===================================== -->
+
+<section class="mentor-feedback">
+
+    <h2>
+
+        AI Mentor Report
+
+    </h2>
+
+    <div class="mentor-box">
+
+        <i class="fa-solid fa-robot mentor-icon"></i>
+
+        <p id="mentor-feedback">
+
+            You demonstrated clear communication, good confidence,
+            and active participation throughout the discussion.
+            Your arguments were logical and well-structured.
+            To improve further, include stronger examples,
+            reduce filler words, and challenge opposing viewpoints
+            with supporting evidence.
+
+        </p>
+
+    </div>
+
+</section>
+
+<!-- ===================================== -->
+<!-- AI PARTICIPANT FEEDBACK -->
+<!-- ===================================== -->
+
+<section class="participant-feedback">
+
+    <h2>
+
+        Feedback From AI Participants
+
+    </h2>
+
+    <div id="participant-feedback-container">
+
+        <div class="participant-review">
+
+            <h3>
+
+                🤖 Rahul
+
+            </h3>
+
+            <p>
+
+                Your arguments were logical and easy to understand.
+
+            </p>
+
+        </div>
+
+        <div class="participant-review">
+
+            <h3>
+
+                🤖 Sophia
+
+            </h3>
+
+            <p>
+
+                You listened carefully before responding.
+
+            </p>
+
+        </div>
+
+        <div class="participant-review">
+
+            <h3>
+
+                🤖 David
+
+            </h3>
+
+            <p>
+
+                Try asking more follow-up questions to keep the discussion engaging.
+
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ===================================== -->
+<!-- NEXT PRACTICE RECOMMENDATIONS -->
+<!-- ===================================== -->
+
+<section class="next-practice">
+
+    <h2>
+
+        Recommended Next Practice
+
+    </h2>
+
+    <div class="recommendation-grid">
+
+        <div class="recommend-card">
+
+            <i class="fa-solid fa-comments"></i>
+
+            <h3>
+
+                Focus Area
+
+            </h3>
+
+            <p id="next-focus">
+
+                Confidence & Critical Thinking
+
+            </p>
+
+        </div>
+
+        <div class="recommend-card">
+
+            <i class="fa-solid fa-lightbulb"></i>
+
+            <h3>
+
+                Suggested Topic
+
+            </h3>
+
+            <p id="next-topic">
+
+                Is Artificial Intelligence replacing human creativity?
+
+            </p>
+
+        </div>
+
+        <div class="recommend-card">
+
+            <i class="fa-solid fa-clock"></i>
+
+            <h3>
+
+                Recommended Duration
+
+            </h3>
+
+            <p id="next-duration">
+
+                15 Minutes
+
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ===================================== -->
+<!-- ACTION BUTTONS -->
+<!-- ===================================== -->
+
+<section class="feedback-actions">
+
+    <button
+        id="practice-again-btn"
+        class="primary-btn">
+
+        <i class="fa-solid fa-rotate-right"></i>
+
+        Practice Again
+
+    </button>
+
+    <button
+        id="history-btn"
+        class="secondary-btn">
+
+        <i class="fa-solid fa-clock-rotate-left"></i>
+
+        View History
+
+    </button>
+
+    <button
+        id="download-btn"
+        class="secondary-btn">
+
+        <i class="fa-solid fa-download"></i>
+
+        Download Report
+
+    </button>
+
+</section>
+
+<!-- ===================================== -->
+<!-- FOOTER -->
+<!-- ===================================== -->
+
+<footer>
+
+    <p>
+
+        © 2026 Multi-Agent GD. All Rights Reserved.
+
+    </p>
+
+</footer>
+
+<script src="../js/main.js"></script>
+
+<script src="../js/pages/feedback.js"></script>
+
+</body>
+
+</html>

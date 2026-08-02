@@ -1,0 +1,507 @@
+/* =====================================================
+   components.css
+   Reusable Components
+===================================================== */
+
+
+/*====================================
+  NAVBAR
+====================================*/
+
+.navbar{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    height:var(--navbar-height);
+
+    padding:0 8%;
+
+    background:rgba(255,255,255,.8);
+
+    backdrop-filter:blur(14px);
+
+    border-bottom:1px solid var(--border-color);
+
+    position:sticky;
+
+    top:0;
+
+    z-index:var(--z-navbar);
+
+}
+
+.logo h2{
+
+    color:var(--primary-color);
+
+    font-size:var(--font-size-xl);
+
+    font-weight:var(--font-weight-bold);
+
+}
+
+.nav-links{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:2rem;
+
+}
+
+.nav-links a{
+
+    color:var(--text-secondary);
+
+    font-weight:var(--font-weight-medium);
+
+}
+
+.nav-links a:hover{
+
+    color:var(--primary-color);
+
+}
+
+.nav-buttons{
+
+    display:flex;
+
+    gap:1rem;
+
+}
+
+
+
+/*====================================
+  BUTTONS
+====================================*/
+
+.primary-btn,
+.secondary-btn,
+.login-btn,
+.signup-btn{
+
+    padding:var(--button-padding);
+
+    border-radius:var(--radius-round);
+
+    font-size:var(--font-size-base);
+
+    font-weight:var(--font-weight-semibold);
+
+    cursor:pointer;
+
+    transition:var(--transition-normal);
+
+}
+
+
+
+/* Primary */
+
+.primary-btn,
+.signup-btn{
+
+    background:var(--primary-gradient);
+
+    color:white;
+
+    box-shadow:var(--shadow-primary);
+
+}
+
+.primary-btn:hover,
+.signup-btn:hover{
+
+    background:var(--primary-dark);
+
+    transform:translateY(-3px);
+
+    box-shadow:var(--shadow-primary);
+
+}
+
+
+
+/* Secondary */
+
+.secondary-btn{
+
+    background:WHITE;
+
+    color:var(--text-primary);
+
+    border:2px solid var(--primary-color);
+
+}
+
+.secondary-btn:hover{
+
+    background:var(--primary-color);
+
+}
+
+
+
+/* Login */
+
+.login-btn{
+
+    background:transparent;
+
+    color:var(--text-primary);
+
+    border:1px solid var(--border-color);
+
+}
+
+.login-btn:hover{
+
+    border-color:var(--primary-color);
+
+    color:var(--primary-color);
+
+}
+
+
+
+/*====================================
+  BADGE
+====================================*/
+
+.badge{
+
+    display:inline-block;
+
+    background:rgba(108,99,255,.15);
+
+    color:var(--primary-light);
+
+    padding:10px 20px;
+
+    border-radius:50px;
+
+    font-size:var(--font-size-sm);
+
+    font-weight:var(--font-weight-medium);
+
+    margin-bottom:25px;
+
+}
+
+
+
+/*====================================
+  SECTION TITLE
+====================================*/
+
+section h2{
+
+    text-align:center;
+
+    margin-bottom:15px;
+
+}
+
+section > p{
+
+    text-align:center;
+
+    max-width:650px;
+
+    margin:0 auto 60px;
+
+}
+
+
+
+/*====================================
+  COMMON CARDS
+====================================*/
+
+.step-card,
+.feature-card,
+.testimonial-card,
+.faq-item{
+
+   background:var(--card-gradient);
+
+border:1px solid var(--border-light);
+
+box-shadow:var(--shadow-md);
+
+    border:1px solid var(--border-color);
+
+    border-radius:var(--radius-lg);
+
+    padding:30px;
+
+    transition:var(--transition-normal);
+
+    box-shadow:var(--shadow-sm);
+
+}
+
+.step-card:hover,
+.feature-card:hover,
+.testimonial-card:hover,
+.faq-item:hover{
+
+    transform:translateY(-8px);
+
+    border-color:var(--primary-color);
+
+    box-shadow:var(--shadow-primary);
+
+}
+
+
+
+/*====================================
+  CARD ICONS
+====================================*/
+
+.step-card i,
+.feature-card i{
+
+    font-size:2.2rem;
+
+    color:var(--primary-color);
+
+    margin-bottom:20px;
+
+}
+
+.step-card h3,
+.feature-card h3{
+
+    margin-bottom:15px;
+
+}
+
+
+
+/*====================================
+  COMMON GRID
+====================================*/
+
+.steps,
+.feature-grid,
+.testimonial-container{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+
+    gap:30px;
+
+}
+
+
+
+/*====================================
+  FAQ
+====================================*/
+
+.faq-container{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:20px;
+
+}
+
+.faq-item h3{
+
+    margin-bottom:12px;
+
+}
+
+
+
+/*====================================
+  CTA
+====================================*/
+
+.cta{
+
+    text-align:center;
+
+    background:linear-gradient(
+        135deg,
+        var(--primary-color),
+        var(--secondary-color)
+    );
+
+    border-radius:var(--radius-xl);
+
+    margin:80px 8%;
+
+}
+
+.cta h2,
+.cta p{
+
+    color:var(--white);
+
+}
+
+.cta button{
+
+    margin-top:30px;
+
+    background:var(--white);
+
+    color:var(--primary-color);
+
+    padding:14px 30px;
+
+    border-radius:var(--radius-round);
+
+    font-weight:var(--font-weight-semibold);
+
+}
+
+.cta button:hover{
+
+    transform:translateY(-3px);
+
+}
+
+
+
+/*====================================
+  FOOTER
+====================================*/
+
+footer{
+
+    background:var(--surface-color);
+
+    padding:70px 8% 30px;
+
+}
+
+.footer-container{
+
+    display:grid;
+
+    grid-template-columns:2fr 1fr 1fr;
+
+    gap:40px;
+
+}
+
+.footer-container h2{
+
+    color:var(--primary-color);
+
+    margin-bottom:15px;
+
+}
+
+.footer-container h3{
+
+    margin-bottom:20px;
+
+}
+
+.footer-container ul{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:12px;
+
+}
+
+.footer-container li{
+
+    color:var(--text-secondary);
+
+    cursor:pointer;
+
+}
+
+.footer-container li:hover{
+
+    color:var(--primary-color);
+
+}
+
+
+
+/*====================================
+  SOCIAL ICONS
+====================================*/
+
+.social-icons{
+
+    display:flex;
+
+    gap:18px;
+
+    margin-top:15px;
+
+}
+
+.social-icons i{
+
+    width:45px;
+
+    height:45px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:var(--background-color);
+
+    color:var(--text-primary);
+
+    border-radius:50%;
+
+    transition:var(--transition-normal);
+
+}
+
+.social-icons i:hover{
+
+    background:var(--primary-color);
+
+    transform:translateY(-4px);
+
+}
+
+
+
+/*====================================
+  COPYRIGHT
+====================================*/
+
+footer hr{
+
+    margin:40px 0 20px;
+
+}
+
+.copyright{
+
+    text-align:center;
+
+    color:var(--text-muted);
+
+    font-size:var(--font-size-sm);
+
+}

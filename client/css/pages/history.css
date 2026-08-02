@@ -1,0 +1,253 @@
+/* =====================================================
+   HISTORY PAGE
+   history.css
+===================================================== */
+
+.history-header{
+    text-align:center;
+    padding:70px 8%;
+}
+
+.history-header h1{
+    font-size:2.5rem;
+    color:var(--text-dark);
+    margin-bottom:15px;
+}
+
+.history-header p{
+    color:var(--text-light);
+    font-size:1rem;
+}
+
+
+/* ================= CONTROLS ================= */
+
+.history-controls{
+    width:90%;
+    max-width:1200px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:2fr 1fr 1fr;
+    gap:20px;
+    margin-bottom:50px;
+}
+
+.history-controls input,
+.history-controls select{
+    padding:14px 18px;
+    border:1px solid var(--border-color);
+    border-radius:10px;
+    font-size:15px;
+    background:white;
+    outline:none;
+    transition:.3s;
+}
+
+.history-controls input:focus,
+.history-controls select:focus{
+    border-color:var(--primary-color);
+}
+
+
+/* ================= SUMMARY ================= */
+
+.history-summary{
+    width:90%;
+    max-width:1200px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:25px;
+    margin-bottom:60px;
+}
+
+.summary-card{
+    background:var(--white);
+    border-radius:15px;
+    padding:30px;
+    text-align:center;
+    box-shadow:var(--shadow);
+}
+
+.summary-card h2{
+    font-size:2rem;
+    color:var(--primary-color);
+    margin-bottom:10px;
+}
+
+.summary-card p{
+    color:var(--text-light);
+}
+
+
+/* ================= TABLE ================= */
+
+.history-table{
+    width:90%;
+    max-width:1200px;
+    margin:auto;
+    margin-bottom:70px;
+    overflow-x:auto;
+}
+
+.history-table table{
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:var(--shadow);
+}
+
+.history-table thead{
+    background:var(--primary-color);
+    color:white;
+}
+
+.history-table th,
+.history-table td{
+    padding:18px;
+    text-align:center;
+}
+
+.history-table tbody tr{
+    border-bottom:1px solid #eee;
+    transition:.3s;
+}
+
+.history-table tbody tr:hover{
+    background:#f8f9ff;
+}
+
+.history-table button{
+    padding:10px 18px;
+    background:var(--primary-color);
+    color:white;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.history-table button:hover{
+    background:var(--secondary-color);
+}
+
+
+/* ================= ACHIEVEMENTS ================= */
+
+.achievements{
+    width:90%;
+    max-width:1200px;
+    margin:auto;
+    margin-bottom:70px;
+}
+
+.achievements h2{
+    text-align:center;
+    margin-bottom:35px;
+    color:var(--text-dark);
+}
+
+.achievement-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:25px;
+}
+
+.achievement-card{
+    background:white;
+    border-radius:15px;
+    padding:35px 25px;
+    text-align:center;
+    box-shadow:var(--shadow);
+    transition:.3s;
+}
+
+.achievement-card:hover{
+    transform:translateY(-8px);
+}
+
+.achievement-card i{
+    font-size:2.3rem;
+    color:var(--primary-color);
+    margin-bottom:20px;
+}
+
+.achievement-card h3{
+    margin-bottom:12px;
+    color:var(--text-dark);
+}
+
+.achievement-card p{
+    color:var(--text-light);
+}
+
+
+/* ================= ACTION BUTTONS ================= */
+
+.history-actions{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    flex-wrap:wrap;
+    margin-bottom:70px;
+}
+
+.history-actions button{
+    padding:14px 30px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:16px;
+    transition:.3s;
+}
+
+.history-actions .primary-btn{
+    background:var(--primary-color);
+    color:white;
+}
+
+.history-actions .primary-btn:hover{
+    background:var(--secondary-color);
+}
+
+.history-actions .secondary-btn{
+    background:white;
+    border:2px solid var(--primary-color);
+    color:var(--primary-color);
+}
+
+.history-actions .secondary-btn:hover{
+    background:var(--primary-color);
+    color:white;
+}
+
+
+/* ================= FOOTER ================= */
+
+footer{
+    background:var(--dark-color);
+    color:white;
+    text-align:center;
+    padding:25px;
+}
+
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:900px){
+
+.history-controls{
+    grid-template-columns:1fr;
+}
+
+.history-table{
+    overflow-x:auto;
+}
+
+.history-table table{
+    min-width:700px;
+}
+
+}

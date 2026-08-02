@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Authentication | Multi-Agent GD</title>
+
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/pages/auth.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="auth-container">
+
+    <!-- ================= LEFT PANEL ================= -->
+
+    <div class="left-panel">
+
+        <div class="brand">
+
+            <h1>Multi-Agent GD</h1>
+
+            <p>
+                Practice realistic Group Discussions with intelligent AI participants.
+            </p>
+
+        </div>
+
+        <div class="feature-list">
+
+            <div class="feature">
+                <i class="fa-solid fa-users"></i>
+                <span>Multiple AI Participants</span>
+            </div>
+
+            <div class="feature">
+                <i class="fa-solid fa-microphone"></i>
+                <span>Voice-Based Discussions</span>
+            </div>
+
+            <div class="feature">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Detailed AI Feedback</span>
+            </div>
+
+            <div class="feature">
+                <i class="fa-solid fa-language"></i>
+                <span>English • Hindi • Hinglish</span>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ================= RIGHT PANEL ================= -->
+
+    <div class="right-panel">
+
+        <div class="auth-card">
+
+            <h2 id="auth-title">
+                Welcome Back 👋
+            </h2>
+
+            <p id="auth-subtitle">
+                Login to continue your GD practice.
+            </p>
+
+            <!-- Tabs -->
+
+            <div class="tabs">
+
+                <button
+                    id="login-tab"
+                    class="active"
+                    type="button">
+
+                    Login
+
+                </button>
+
+                <button
+                    id="signup-tab"
+                    type="button">
+
+                    Sign Up
+
+                </button>
+
+            </div>
+
+            <!-- Form -->
+
+            <form id="auth-form">
+
+                <!-- Name (Signup Only) -->
+
+                <div
+                    class="input-group"
+                    id="name-group"
+                    style="display:none;">
+
+                    <label for="full-name">
+                        Full Name
+                    </label>
+
+                    <input
+                        id="full-name"
+                        type="text"
+                        placeholder="Enter your full name">
+
+                </div>
+
+                <!-- Email -->
+
+                <div class="input-group">
+
+                    <label for="email">
+
+                        Email
+
+                    </label>
+
+                    <input
+                        id="email"
+                        type="email"
+                        placeholder="Enter your email">
+
+                </div>
+
+                <!-- Password -->
+
+                <div class="input-group">
+
+                    <label for="password">
+
+                        Password
+
+                    </label>
+
+                    <div class="password-box">
+
+                        <input
+                            id="password"
+                            type="password"
+                            placeholder="Enter your password">
+
+                        <i
+                            id="toggle-password"
+                            class="fa-solid fa-eye">
+
+                        </i>
+
+                    </div>
+
+                </div>
+
+                <!-- Confirm Password -->
+
+                <div
+                    class="input-group"
+                    id="confirm-password-group"
+                    style="display:none;">
+
+                    <label for="confirm-password">
+
+                        Confirm Password
+
+                    </label>
+
+                    <div class="password-box">
+
+                        <input
+                            id="confirm-password"
+                            type="password"
+                            placeholder="Confirm password">
+
+                        <i
+                            id="toggle-confirm-password"
+                            class="fa-solid fa-eye">
+
+                        </i>
+
+                    </div>
+
+                </div>
+
+                <!-- Options -->
+
+                <div class="extra-options">
+
+                    <label>
+
+                        <input
+                            id="remember-me"
+                            type="checkbox">
+
+                        Remember Me
+
+                    </label>
+
+                    <a
+                        id="forgot-password"
+                        href="#">
+
+                        Forgot Password?
+
+                    </a>
+
+                </div>
+
+                <!-- Submit -->
+                
+                <div id="error-message" class="error-message"></div>
+                <button
+                    id="submit-btn"
+                    class="login-btn"
+                    type="submit">
+
+                    Login
+
+                </button>
+
+            </form>
+
+            <!-- Divider -->
+
+            <div class="divider">
+
+                <span>OR</span>
+
+            </div>
+
+            <!-- Google -->
+
+            <button
+                id="google-btn"
+                class="google-btn"
+                type="button">
+
+                <i class="fa-brands fa-google"></i>
+
+                Continue with Google
+
+            </button>
+
+            <!-- Bottom Text -->
+
+            <p class="bottom-text">
+
+                <span id="bottom-message">
+
+                    Don't have an account?
+
+                </span>
+
+                <a
+                    href="#"
+                    id="bottom-link">
+
+                    Create Account
+
+                </a>
+
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="../js/main.js"></script>
+<script src="../js/pages/auth.js"></script>
+
+</body>
+</html>

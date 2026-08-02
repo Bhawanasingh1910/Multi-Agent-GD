@@ -1,0 +1,303 @@
+/* =====================================================
+   PROFILE PAGE
+   profile.css
+===================================================== */
+
+/* ================= PROFILE HEADER ================= */
+
+.profile-header{
+    text-align:center;
+    padding:70px 8%;
+    background:var(--white);
+}
+
+.profile-header img{
+    width:140px;
+    height:140px;
+    border-radius:50%;
+    object-fit:cover;
+    border:5px solid var(--primary-color);
+    margin-bottom:20px;
+}
+
+.profile-header h1{
+    font-size:2.3rem;
+    color:var(--text-dark);
+    margin-bottom:10px;
+}
+
+.profile-header p{
+    color:var(--text-light);
+    margin-bottom:25px;
+}
+
+.profile-header button{
+    padding:14px 30px;
+    background:var(--primary-color);
+    color:var(--white);
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:16px;
+    transition:.3s;
+}
+
+.profile-header button:hover{
+    background:var(--secondary-color);
+}
+
+
+/* ================= PROFILE INFO ================= */
+
+.profile-info{
+    width:90%;
+    max-width:900px;
+    margin:60px auto;
+}
+
+.info-card{
+    background:var(--white);
+    padding:35px;
+    border-radius:15px;
+    box-shadow:var(--shadow);
+}
+
+.info-card h2{
+    margin-bottom:20px;
+    color:var(--text-dark);
+}
+
+.info-card p{
+    margin:14px 0;
+    color:var(--text-light);
+}
+
+.info-card strong{
+    color:var(--text-dark);
+}
+
+
+/* ================= PERFORMANCE ================= */
+
+.performance{
+    width:90%;
+    max-width:1200px;
+    margin:auto;
+    margin-bottom:70px;
+}
+
+.performance h2{
+    text-align:center;
+    margin-bottom:35px;
+}
+
+.performance-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:25px;
+}
+
+.performance-card{
+    background:var(--white);
+    padding:30px;
+    border-radius:15px;
+    text-align:center;
+    box-shadow:var(--shadow);
+    transition:.3s;
+}
+
+.performance-card:hover{
+    transform:translateY(-8px);
+}
+
+.performance-card i{
+    font-size:2rem;
+    color:var(--primary-color);
+    margin-bottom:18px;
+}
+
+.performance-card h3{
+    margin-bottom:12px;
+    color:var(--text-dark);
+}
+
+.performance-card h2{
+    color:var(--primary-color);
+}
+
+
+/* ================= SKILLS ================= */
+
+.skills{
+    width:90%;
+    max-width:1200px;
+    margin:auto;
+    margin-bottom:70px;
+}
+
+.skills h2{
+    text-align:center;
+    margin-bottom:35px;
+}
+
+.skill-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:25px;
+}
+
+.skill-card{
+    background:var(--white);
+    padding:30px;
+    text-align:center;
+    border-radius:15px;
+    box-shadow:var(--shadow);
+}
+
+.skill-card h3{
+    margin-bottom:12px;
+}
+
+.skill-card h2{
+    color:var(--primary-color);
+}
+
+
+/* ================= SETTINGS ================= */
+
+.settings{
+    width:90%;
+    max-width:900px;
+    margin:auto;
+    margin-bottom:70px;
+}
+
+.settings h2{
+    text-align:center;
+    margin-bottom:35px;
+}
+
+.setting-card{
+    margin-bottom:20px;
+}
+
+.setting-card button{
+    width:100%;
+    display:flex;
+    align-items:center;
+    gap:15px;
+    padding:18px 25px;
+    border:none;
+    border-radius:12px;
+    background:var(--white);
+    box-shadow:var(--shadow);
+    cursor:pointer;
+    font-size:16px;
+    transition:.3s;
+}
+
+.setting-card button:hover{
+    background:var(--primary-color);
+    color:var(--white);
+}
+
+.setting-card i{
+    font-size:20px;
+}
+
+
+/* ================= ACTIVITY ================= */
+
+.activity{
+    width:90%;
+    max-width:900px;
+    margin:auto;
+    margin-bottom:70px;
+}
+
+.activity h2{
+    margin-bottom:25px;
+    text-align:center;
+}
+
+.activity ul{
+    background:var(--white);
+    border-radius:15px;
+    padding:30px;
+    box-shadow:var(--shadow);
+}
+
+.activity li{
+    margin-bottom:18px;
+    color:var(--text-light);
+}
+
+
+/* ================= LOGOUT ================= */
+
+.logout-section{
+    text-align:center;
+    margin-bottom:70px;
+}
+
+.logout-btn{
+    padding:16px 40px;
+    border:none;
+    border-radius:12px;
+    background:#ef4444;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.logout-btn:hover{
+    background:#dc2626;
+}
+
+
+/* ================= FOOTER ================= */
+
+footer{
+    background:var(--dark-color);
+    color:var(--white);
+    text-align:center;
+    padding:25px;
+}
+
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:768px){
+
+.profile-header{
+    padding:50px 20px;
+}
+
+.profile-header img{
+    width:120px;
+    height:120px;
+}
+
+.info-card{
+    padding:25px;
+}
+
+.performance-grid,
+.skill-grid{
+    grid-template-columns:1fr;
+}
+
+.setting-card button{
+    justify-content:center;
+}
+
+.activity ul{
+    padding:20px;
+}
+
+.logout-btn{
+    width:90%;
+}
+
+}

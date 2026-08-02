@@ -1,0 +1,182 @@
+/* =====================================================
+   variables.css
+   Multi-Agent GD Design System
+===================================================== */
+
+:root{
+
+    /*====================================
+      COLORS
+    ====================================*/
+/* Brand */
+
+--primary-color: #5B5FEF;
+--primary-dark: #4348D6;
+--primary-light: #818CF8;
+
+--secondary-color: #06B6D4;
+--secondary-dark: #0891B2;
+--secondary-light: #67E8F9;
+
+
+/* Background */
+
+--background-color: #F8FAFF;
+--background-secondary: #F1F5FF;
+
+--surface-color: #FFFFFF;
+--surface-light: #F8FAFC;
+
+
+/* Text */
+
+--text-primary: #111827;
+--text-secondary: #4B5563;
+--text-muted: #9CA3AF;
+
+
+/* Border */
+
+--border-color: #E5E7EB;
+--border-light: #F1F5F9;
+
+    /* Status */
+    --success-color: #22C55E;
+    --warning-color: #F59E0B;
+    --danger-color: #EF4444;
+    --info-color: #3B82F6;
+
+    /* Extra */
+    --white: #FFFFFF;
+    --black: #000000;
+
+
+
+    /*====================================
+      TYPOGRAPHY
+    ====================================*/
+
+    --font-family: "Poppins", sans-serif;
+
+    --font-size-xs: 0.75rem;      /* 12px */
+    --font-size-sm: 0.875rem;     /* 14px */
+    --font-size-base: 1rem;       /* 16px */
+    --font-size-md: 1.125rem;     /* 18px */
+    --font-size-lg: 1.25rem;      /* 20px */
+    --font-size-xl: 1.5rem;       /* 24px */
+    --font-size-2xl: 2rem;        /* 32px */
+    --font-size-3xl: 2.75rem;     /* 44px */
+    --font-size-4xl: 3.5rem;      /* 56px */
+
+    --font-weight-light: 300;
+    --font-weight-regular: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+
+
+
+    /*====================================
+      SPACING
+    ====================================*/
+
+    --space-xs: 0.25rem;      /* 4px */
+    --space-sm: 0.5rem;       /* 8px */
+    --space-md: 1rem;         /* 16px */
+    --space-lg: 1.5rem;       /* 24px */
+    --space-xl: 2rem;         /* 32px */
+    --space-2xl: 3rem;        /* 48px */
+    --space-3xl: 4rem;        /* 64px */
+    --space-4xl: 6rem;        /* 96px */
+
+
+
+    /*====================================
+      BORDER RADIUS
+    ====================================*/
+
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+    --radius-round: 50px;
+    --radius-circle: 50%;
+
+
+
+    /*====================================
+      SHADOWS
+    ====================================*/
+
+    --shadow-sm:0 2px 8px rgba(15,23,42,.05);
+
+    --shadow-md:0 10px 25px rgba(15,23,42,.08);
+
+    --shadow-lg:0 18px 45px rgba(15,23,42,.12);
+
+    --shadow-primary:0 15px 35px rgba(99,102,241,.22);
+
+
+    /*====================================
+      TRANSITIONS
+    ====================================*/
+
+    --transition-fast: 0.2s ease;
+
+    --transition-normal: 0.3s ease;
+
+    --transition-slow: 0.5s ease;
+
+
+
+    /*====================================
+      LAYOUT
+    ====================================*/
+
+    --container-width: 1200px;
+
+    --navbar-height: 80px;
+
+    --section-padding: 100px;
+
+    --card-padding: 24px;
+
+
+
+    /*====================================
+      BUTTONS
+    ====================================*/
+
+    --button-height: 48px;
+
+    --button-padding: 14px 28px;
+
+
+
+    /*====================================
+      Z-INDEX
+    ====================================*/
+
+    --z-navbar: 1000;
+
+    --z-dropdown: 1100;
+
+    --z-modal: 1200;
+
+    --z-toast: 1300;
+
+
+    /*====================================
+      GRADIENTS
+    ====================================*/
+
+    --primary-gradient:
+linear-gradient(135deg,#6366F1,#8B5CF6);
+
+--hero-gradient:
+linear-gradient(135deg,#EEF2FF,#FFFFFF);
+
+--card-gradient:
+linear-gradient(180deg,#FFFFFF,#F8FAFC);
+
+}

@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Create Discussion | Multi-Agent GD</title>
+
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/pages/create-room.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+
+    <!-- Google Font -->
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+
+    <!-- Font Awesome -->
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+</head>
+
+<body>
+
+<!-- ========================================= -->
+<!-- NAVBAR -->
+<!-- ========================================= -->
+
+<header>
+
+    <nav class="navbar">
+
+        <div class="logo">
+
+            <h2>Multi-Agent GD</h2>
+
+        </div>
+
+        <ul class="nav-links">
+
+            <li>
+
+                <a href="dashboard.html">
+
+                    Dashboard
+
+                </a>
+
+            </li>
+
+            <li>
+
+                <a href="history.html">
+
+                    History
+
+                </a>
+
+            </li>
+
+            <li>
+
+                <a href="feedback.html">
+
+                    Feedback
+
+                </a>
+
+            </li>
+
+            <li>
+
+                <a href="profile.html">
+
+                    Profile
+
+                </a>
+
+            </li>
+
+        </ul>
+
+    </nav>
+
+</header>
+
+<!-- ========================================= -->
+<!-- PAGE HEADER -->
+<!-- ========================================= -->
+
+<section class="page-title">
+
+    <span class="page-badge">
+
+        AI Powered Discussion
+
+    </span>
+
+    <h1>
+
+        Create New Discussion
+
+    </h1>
+
+    <p>
+
+        Configure every detail before starting your AI powered Group Discussion.
+
+    </p>
+
+</section>
+
+<!-- ========================================= -->
+<!-- MAIN CONTAINER -->
+<!-- ========================================= -->
+
+<section class="create-discussion">
+
+<!-- ========================================= -->
+<!-- LEFT PANEL -->
+<!-- ========================================= -->
+
+<div class="settings-card">
+
+    <h2>
+
+        <i class="fa-solid fa-sliders"></i>
+
+        Discussion Settings
+
+    </h2>
+
+    <!-- Topic -->
+
+    <label for="custom-topic">
+
+        Custom Topic
+
+    </label>
+
+    <input
+        id="custom-topic"
+        type="text"
+        placeholder="Enter your own discussion topic">
+
+    <div class="or-text">
+
+        OR
+
+    </div>
+
+    <label for="topic">
+
+        Choose Existing Topic
+
+    </label>
+
+    <select id="topic">
+
+        <option value="">
+
+            Select Topic
+
+        </option>
+
+        <option>
+
+            Artificial Intelligence
+
+        </option>
+
+        <option>
+
+            Climate Change
+
+        </option>
+
+        <option>
+
+            Startup Culture
+
+        </option>
+
+        <option>
+
+            Electric Vehicles
+
+        </option>
+
+        <option>
+
+            Social Media
+
+        </option>
+
+        <option>
+
+            Remote Work
+
+        </option>
+
+        <option>
+
+            Digital India
+
+        </option>
+
+        <option>
+
+            Online Education
+
+        </option>
+
+    </select>
+
+    <!-- Mode -->
+
+    <label for="mode">
+
+        Discussion Mode
+
+    </label>
+
+    <select id="mode">
+
+        <option>
+
+            Placement GD
+
+        </option>
+
+        <option>
+
+            Corporate GD
+
+        </option>
+
+        <option>
+
+            College GD
+
+        </option>
+
+        <option>
+
+            Debate
+
+        </option>
+
+    </select>
+
+    <!-- Language -->
+
+    <label for="language">
+
+        Language
+
+    </label>
+
+    <select id="language">
+
+        <option>
+
+            English
+
+        </option>
+
+        <option>
+
+            Hindi
+
+        </option>
+
+        <option>
+
+            Hinglish
+
+        </option>
+
+    </select>
+
+    <!-- Duration -->
+
+    <label for="duration">
+
+        Discussion Duration
+
+    </label>
+
+    <select id="duration">
+
+        <option value="5">
+
+            5 Minutes
+
+        </option>
+
+        <option value="10" selected>
+
+            10 Minutes
+
+        </option>
+
+        <option value="15">
+
+            15 Minutes
+
+        </option>
+
+        <option value="20">
+
+            20 Minutes
+
+        </option>
+
+    </select>
+
+    <!-- Number of AI -->
+
+    <label for="ai-count">
+
+        Number of AI Agents
+
+    </label>
+
+    <select id="ai-count">
+
+        <option value="1">1 Participant</option>
+
+        <option value="2" selected>2 Participants</option>
+
+        <option value="3">3 Participants</option>
+
+        <option value="4">4 Participants</option>
+
+        <option value="5">5 Participants</option>
+
+        <option value="6">6 Participants</option>
+
+    </select>
+
+</div>
+
+<!-- ========================================= -->
+<!-- CENTER PANEL -->
+<!-- ========================================= -->
+
+<div class="ai-config">
+
+    <div class="section-heading">
+
+        <h2>
+
+            <i class="fa-solid fa-robot"></i>
+
+            AI Participants
+
+        </h2>
+
+        <p>
+
+            Configure each AI participant independently.
+
+        </p>
+
+    </div>
+
+    <!-- JS will generate all AI cards here -->
+
+    <div id="ai-container">
+
+    </div>
+
+</div>
+
+<!-- ========================================= -->
+<!-- RIGHT PANEL -->
+<!-- ========================================= -->
+
+<div class="summary-card">
+
+    <h2>
+
+        <i class="fa-solid fa-file-lines"></i>
+
+        Discussion Summary
+
+    </h2>
+
+    <div class="summary-item">
+
+        <span>Topic</span>
+
+        <strong id="summary-topic">
+
+            Not Selected
+
+        </strong>
+
+    </div>
+
+    <div class="summary-item">
+
+        <span>Mode</span>
+
+        <strong id="summary-mode">
+
+            Placement GD
+
+        </strong>
+
+    </div>
+
+    <div class="summary-item">
+
+        <span>Language</span>
+
+        <strong id="summary-language">
+
+            English
+
+        </strong>
+
+    </div>
+
+    <div class="summary-item">
+
+        <span>Duration</span>
+
+        <strong id="summary-duration">
+
+            10 Minutes
+
+        </strong>
+
+    </div>
+
+    <div class="summary-item">
+
+        <span>Total AI</span>
+
+        <strong id="summary-ai-count">
+
+            2 Participants
+
+        </strong>
+
+    </div>
+
+    <div class="summary-item">
+
+        <span>Estimated Turns</span>
+
+        <strong id="estimated-turns">
+
+            25 Turns
+
+        </strong>
+
+    </div>
+
+    <div class="summary-item">
+
+        <span>AI Names</span>
+
+        <strong id="summary-ai-names">
+
+            AI 1, AI 2
+
+        </strong>
+
+    </div>
+
+    <div id="error-message" class="error-message"></div>
+
+<button
+    id="start-discussion"
+    class="start-btn">
+
+    <i class="fa-solid fa-play"></i>
+
+    Start Discussion
+
+</button>
+
+</div>
+
+</section>
+
+<!-- ========================================= -->
+<!-- FOOTER -->
+<!-- ========================================= -->
+
+<footer>
+
+    <p>
+
+        © 2026 Multi-Agent GD. All Rights Reserved.
+
+    </p>
+
+</footer>
+
+<script src="../js/main.js"></script>
+
+<script src="../js/pages/create-room.js"></script>
+
+</body>
+
+</html>

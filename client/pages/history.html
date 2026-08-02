@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discussion History | Multi-Agent GD</title>
+
+    
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/pages/history.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<header>
+
+    <nav class="navbar">
+
+        <div class="logo">
+            <h2>Multi-Agent GD</h2>
+        </div>
+
+        <ul class="nav-links">
+
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="feedback.html">Feedback</a></li>
+            <li><a href="profile.html">Profile</a></li>
+
+        </ul>
+
+    </nav>
+
+</header>
+
+<!-- ================= PAGE HEADER ================= -->
+
+<section class="history-header">
+
+    <h1>Discussion History</h1>
+
+    <p>
+        Review your previous discussions and track your improvement.
+    </p>
+
+</section>
+
+<!-- ================= SEARCH & FILTER ================= -->
+
+<section class="history-controls">
+
+    <input
+    id="search-input"
+    type="text"
+    placeholder="Search by topic...">
+
+    <select id="mode-filter">
+
+        <option value="All">All Discussions</option>
+        <option value="Placement GD">Placement GD</option>
+        <option value="Corporate GD">Corporate GD</option>
+        <option value="Debate">Debate</option>
+
+    </select>
+    <select id="sort-filter">
+
+        <option value="Newest">Newest First</option>
+        <option value="Oldest">Oldest First</option>
+        <option value="Highest">Highest Score</option>
+        <option value="Lowest">Lowest Score</option>
+
+    </select>
+
+</section>
+
+<!-- ================= SUMMARY ================= -->
+
+<section class="history-summary">
+
+    <div class="summary-card">
+
+        <h2>24</h2>
+
+        <p>Total Discussions</p>
+
+    </div>
+
+    <div class="summary-card">
+
+        <h2>84%</h2>
+
+        <p>Average Score</p>
+
+    </div>
+
+    <div class="summary-card">
+
+        <h2>7.5 hrs</h2>
+
+        <p>Total Practice Time</p>
+
+    </div>
+
+    <div class="summary-card">
+
+        <h2>8 Days</h2>
+
+        <p>Practice Streak</p>
+
+    </div>
+
+</section>
+
+<!-- ================= HISTORY TABLE ================= -->
+
+<section class="history-table">
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>Topic</th>
+                <th>Date</th>
+                <th>Mode</th>
+                <th>Duration</th>
+                <th>Score</th>
+                <th>Report</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody id="history-body">
+
+        </tbody>
+
+    </table>
+
+</section>
+
+<!-- ================= RECENT ACHIEVEMENTS ================= -->
+
+<section class="achievements">
+
+    <h2>Recent Achievements</h2>
+
+    <div class="achievement-grid">
+
+        <div class="achievement-card">
+
+            <i class="fa-solid fa-fire"></i>
+
+            <h3>7-Day Streak</h3>
+
+            <p>You practiced for seven consecutive days.</p>
+
+        </div>
+
+        <div class="achievement-card">
+
+            <i class="fa-solid fa-trophy"></i>
+
+            <h3>Best Score</h3>
+
+            <p>Your highest discussion score is 90%.</p>
+
+        </div>
+
+        <div class="achievement-card">
+
+            <i class="fa-solid fa-chart-line"></i>
+
+            <h3>Improving</h3>
+
+            <p>Your confidence has increased over recent sessions.</p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= ACTIONS ================= -->
+
+<section class="history-actions">
+
+    <button id="start-btn" class="primary-btn">
+        Start New Discussion
+    </button>
+
+    <button id="dashboard-btn" class="secondary-btn">
+        Back to Dashboard
+    </button>
+
+</section>
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <p>
+
+        © 2026 Multi-Agent GD. All Rights Reserved.
+
+    </p>
+
+</footer>
+
+</body>
+<script src="../js/main.js"></script>
+<script src="../js/pages/history.js"></script>
+</html>
