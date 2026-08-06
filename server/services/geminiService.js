@@ -10,28 +10,35 @@ async function askGemini(prompt) {
 
     try {
 
-        const interaction = await ai.interactions.create({
+        console.log("Calling Gemini...");
 
+        const response = await ai.models.generateContent({
             model: "gemini-3.6-flash",
-
-            input: prompt
-
+            contents: prompt
         });
 
-        return interaction.output_text;
+        console.log("Gemini Success");
+        console.dir(response, { depth: null });
 
+        let text = response.text.trim();
+
+        text = text.replace(/```json/g, "");
+        text = text.replace(/```/g, "");
+
+        return text.trim();
+
+    } catch (err) {
+
+    if (err.status === 429) {
+        console.log("Rate limit reached. Waiting 20 seconds...");
+
+        await new Promise(r => setTimeout(r, 20000));
+
+        return askGemini(prompt);
     }
 
-    catch (error) {
-
-        console.error(error);
-
-        throw error;
-
-    }
-
+    throw err;
+}
 }
 
-module.exports = {
-    askGemini
-};
+module.exports = { askGemini };

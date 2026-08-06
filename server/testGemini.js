@@ -6,17 +6,36 @@ const ai = new GoogleGenAI({
     apiKey: process.env.GEMINI_API_KEY
 });
 
+async function testModel(model) {
+
+    try {
+
+        console.log(`\nTesting: ${model}`);
+
+        const response = await ai.models.generateContent({
+            model,
+            contents: "Reply with only: Hello"
+        });
+
+        console.log("✅ SUCCESS");
+        console.log(response.text);
+
+    } catch (err) {
+
+        console.log("❌ FAILED");
+
+        console.log("Status:", err.status);
+
+        console.log(err.message);
+
+    }
+
+}
+
 async function main() {
 
-    const interaction = await ai.interactions.create({
-
-        model: "gemini-3.6-flash",
-
-        input: "Say Hello"
-
-    });
-
-    console.log(interaction.output_text);
+    await testModel("gemini-3.6-flash");
+    
 
 }
 
