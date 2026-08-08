@@ -1,8 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
     <title>Discussion Room | Multi-Agent GD</title>
 
     <link rel="stylesheet" href="../css/variables.css">
@@ -11,47 +16,73 @@
     <link rel="stylesheet" href="../css/pages/discussion.css">
     <link rel="stylesheet" href="../css/responsive.css">
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
 
     <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-</head>
-<body>
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
-<!-- ================= NAVBAR ================= -->
+</head>
+
+<body>
 
 <header>
 
-<nav class="navbar">
+    <nav class="navbar">
 
-    <div class="logo">
-        <h2>Multi-Agent GD</h2>
-    </div>
+        <div class="logo">
 
-    <ul class="nav-links">
-        <li><a href="dashboard.html">Dashboard</a></li>
-        <li><a href="history.html">History</a></li>
-        <li><a href="profile.html">Profile</a></li>
-    </ul>
+            <h2>Multi-Agent GD</h2>
 
-</nav>
+        </div>
+
+    </nav>
 
 </header>
 
-<!-- ================= DISCUSSION INFO ================= -->
+<!-- ================= HEADER ================= -->
 
-<section class="discussion-header">
+<section id="discussion-header">
 
     <div>
-        <h2>Topic: Artificial Intelligence</h2>
-        <p>Placement GD • English</p>
+
+        <h2 id="discussion-topic">
+
+            Loading Topic...
+
+        </h2>
+
+        <p>
+
+            <span id="discussion-mode"></span>
+
+            •
+
+            <span id="discussion-language"></span>
+
+        </p>
+
     </div>
 
-    <div class="timer">
+    <div class="header-right">
 
-        <i class="fa-solid fa-clock"></i>
+        <div class="timer">
 
-        <span>09:42</span>
+            <i class="fa-solid fa-clock"></i>
+
+            <span id="discussion-timer">
+
+                00:00
+
+            </span>
+
+        </div>
+
+        <button id="leave-btn">
+
+            Leave
+
+        </button>
 
     </div>
 
@@ -59,162 +90,27 @@
 
 <!-- ================= MAIN ================= -->
 
-<section class="discussion-container">
+<section id="discussion-room">
 
-    <!-- LEFT PANEL -->
+    <!-- PARTICIPANTS -->
 
-    <div class="participants-panel">
+    <div id="meeting-grid">
 
-        <h2>Participants</h2>
-
-        <div class="participant-card speaking">
-
-            <img src="images/avatar1.png">
-
-            <h3>Rahul</h3>
-
-            <p>Logical</p>
-
-            <span class="status">Speaking...</span>
-
-        </div>
-
-        <div class="participant-card">
-
-            <img src="images/avatar2.png">
-
-            <h3>Priya</h3>
-
-            <p>Friendly</p>
-
-            <span>Listening</span>
-
-        </div>
-
-        <div class="participant-card">
-
-            <img src="images/avatar3.png">
-
-            <h3>Aisha</h3>
-
-            <p>Aggressive</p>
-
-            <span>Waiting</span>
-
-        </div>
-
-        <div class="participant-card">
-
-            <img src="images/avatar4.png">
-
-            <h3>You</h3>
-
-            <p>User</p>
-
-            <span>Microphone Ready</span>
-
-        </div>
+        <!-- JS creates AI + USER cards -->
 
     </div>
 
-    <!-- CENTER -->
+    <!-- TRANSCRIPT -->
 
-    <div class="transcript-panel">
+    <div id="transcript-panel">
 
-        <div class="transcript-header">
+        <div id="transcript-title">
 
-            <h2>Live Transcript</h2>
-
-        </div>
-
-        <div class="messages">
-
-            <div class="message ai">
-
-                <strong>Rahul</strong>
-
-                <p>
-                    I believe Artificial Intelligence
-                    will improve software development
-                    rather than completely replace engineers.
-                </p>
-
-            </div>
-
-            <div class="message ai">
-
-                <strong>Priya</strong>
-
-                <p>
-                    I agree. AI can automate repetitive
-                    tasks, but creativity still requires humans.
-                </p>
-
-            </div>
-
-            <div class="message user">
-
-                <strong>You</strong>
-
-                <p>
-                    I think AI will replace some jobs,
-                    but new opportunities will also be created.
-                </p>
-
-            </div>
-
-            <div class="message ai">
-
-                <strong>Aisha</strong>
-
-                <p>
-
-                    That's an interesting point.
-                    Can you give an example?
-
-                </p>
-
-            </div>
+            Live Transcript
 
         </div>
 
-    </div>
-
-    <!-- RIGHT PANEL -->
-
-    <div class="discussion-info">
-
-        <h2>Discussion Status</h2>
-
-        <div class="info-card">
-
-            <h3>Language</h3>
-
-            <p>English</p>
-
-        </div>
-
-        <div class="info-card">
-
-            <h3>Mode</h3>
-
-            <p>Placement GD</p>
-
-        </div>
-
-        <div class="info-card">
-
-            <h3>Participants</h3>
-
-            <p>4</p>
-
-        </div>
-
-        <div class="info-card">
-
-            <h3>Your Speaking Time</h3>
-
-            <p>02:15</p>
+        <div id="transcript-body">
 
         </div>
 
@@ -224,32 +120,43 @@
 
 <!-- ================= CONTROLS ================= -->
 
-<section class="controls">
+<section id="controls">
 
-    <button class="mic-btn">
+    <button id="mic-btn">
 
         <i class="fa-solid fa-microphone"></i>
 
     </button>
 
-    <button class="mute-btn">
+    <button id="pause-btn">
 
-        <i class="fa-solid fa-microphone-slash"></i>
+        <i class="fa-solid fa-pause"></i>
 
     </button>
 
-    <button class="end-btn">
+    <button id="resume-btn">
+
+        <i class="fa-solid fa-play"></i>
+
+    </button>
+
+    <button id="toggle-transcript-btn">
+
+        <i class="fa-solid fa-file-lines"></i>
+
+    </button>
+
+    <button id="end-btn">
 
         <i class="fa-solid fa-phone-slash"></i>
-
-        Leave Discussion
 
     </button>
 
 </section>
 
-</body>
-
 <script src="../js/main.js"></script>
 <script src="../js/pages/discussion.js"></script>
+
+</body>
+
 </html>

@@ -490,53 +490,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-
-    // ============================================
-    // Save Discussion Configuration
-    // ============================================
-
-    function saveDiscussion(){
-
-        const finalTopic =
-
-            customTopic.value.trim() !== ""
-
-            ? customTopic.value.trim()
-
-            : topic.value;
-
-        const discussion = {
-
-            topic:finalTopic,
-
-            mode:mode.value,
-
-            language:language.value,
-
-            duration:Number(duration.value),
-
-            aiCount:Number(aiCount.value),
-
-            estimatedTurns:
-                Number(duration.value) * 2 +
-                Number(aiCount.value) * 3,
-
-            participants:getAiParticipants()
-
-        };
-
-        localStorage.setItem(
-
-            "discussionConfig",
-
-            JSON.stringify(discussion)
-
-        );
-
-    }
-
-
-
     // ============================================
     // Validate Form
     // ============================================
@@ -594,22 +547,74 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
         // ============================================
-    // Start Discussion
-    // ============================================
+        // Start Discussion
+        // ============================================
 
-    startDiscussionBtn.addEventListener("click", () => {
+        startDiscussionBtn.addEventListener("click", async () => {
 
-        if (!validateDiscussion()) {
+            if (!validateDiscussion()) return;
 
-            return;
+            const finalTopic =
+                customTopic.value.trim() || topic.value;
 
-        }
+            const data = {
 
-        saveDiscussion();
+                topic: finalTopic,
 
-        window.location.href = "discussion.html";
+                mode: mode.value,
 
-    });
+                language: language.value,
+
+                duration: Number(duration.value),
+
+                participants: getAiParticipants()
+
+            };
+
+            try {
+
+                const response = await fetch(
+                    "http://localhost:5000/api/ai/discussion/start",
+                    {
+
+                        method: "POST",
+
+                        headers: {
+
+                            "Content-Type": "application/json"
+
+                        },
+
+                        body: JSON.stringify(data)
+
+                    }
+                );
+
+                const result = await response.json();
+
+                localStorage.setItem(
+                    "discussionSession",
+                    JSON.stringify(result)
+                );
+
+                localStorage.setItem(
+                    "discussionConfig",
+                    JSON.stringify(data)
+                );
+
+                window.location.href = "discussion.html";
+
+            }
+
+            catch (err) {
+
+                console.log(err);
+
+                alert("Server Error");
+
+            }
+
+        });
 
 
 

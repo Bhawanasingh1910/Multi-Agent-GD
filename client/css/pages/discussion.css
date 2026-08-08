@@ -1,14 +1,9 @@
-/* =====================================================
-   discussion.css
-   Part 1 : Header | Layout | Participants
-=====================================================*/
+/* ===========================
+   DISCUSSION PAGE
+=========================== */
 
-
-/*====================================
-  DISCUSSION HEADER
-====================================*/
-
-.discussion-header{
+#discussion-header{
+    zoom:0.8;
 
     display:flex;
 
@@ -16,33 +11,15 @@
 
     align-items:center;
 
-    padding:35px 8%;
+    padding:10px 20px;
 
-    background:var(--surface-color);
+    background:white;
 
-    border-bottom:1px solid var(--border-color);
-
-}
-
-.discussion-header h2{
-
-    margin-bottom:8px;
+    box-shadow:0 2px 10px rgba(0,0,0,.08);
 
 }
 
-.discussion-header p{
-
-    color:var(--text-secondary);
-
-}
-
-
-
-/*====================================
-  TIMER
-====================================*/
-
-.timer{
+.header-right{
 
     display:flex;
 
@@ -50,670 +27,351 @@
 
     gap:10px;
 
-    background:var(--primary-color);
+}
 
-    color:var(--white);
+.timer{
 
-    padding:12px 22px;
+    font-size:20px;
 
-    border-radius:var(--radius-round);
+    font-weight:700;
 
-    font-weight:var(--font-weight-semibold);
-
-    box-shadow:var(--shadow-primary);
+    color:#6C63FF;
 
 }
 
-.timer i{
+#leave-btn{
 
-    font-size:1rem;
+    padding:10px 22px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#ff4d4d;
+
+    color:white;
+
+    cursor:pointer;
 
 }
 
+/* ===========================
+MAIN
+=========================== */
 
-
-/*====================================
-  MAIN LAYOUT
-====================================*/
-
-.discussion-container{
+#discussion-room{
+    zoom:0.95;
 
     display:grid;
 
-    grid-template-columns:280px 1fr 280px;
+    grid-template-columns:2fr 1.2fr;
 
-    gap:30px;
-
-    align-items:start;
-
-}
-
-
-
-/*====================================
-  PANELS
-====================================*/
-
-.participants-panel,
-.transcript-panel,
-.discussion-info{
-
-    background:var(--surface-color);
-
-    border:1px solid var(--border-color);
-
-    border-radius:var(--radius-lg);
-
-    padding:25px;
-
-    box-shadow:var(--shadow-sm);
-
-}
-
-.participants-panel h2,
-.transcript-header h2,
-.discussion-info h2{
-
-    margin-bottom:25px;
-
-}
-
-
-
-/*====================================
-  PARTICIPANT CARD
-====================================*/
-
-.participant-card{
-
-    text-align:center;
+    gap:20px;
 
     padding:20px;
 
-    border:1px solid var(--border-color);
-
-    border-radius:var(--radius-lg);
-
-    margin-bottom:20px;
-
-    transition:var(--transition-normal);
-
-    background:var(--background-color);
+    height:calc(134vh - 180px);
 
 }
 
-.participant-card:hover{
+/* ===========================
+MEETING GRID
+=========================== */
 
-    transform:translateY(-5px);
+#meeting-grid{
 
-    border-color:var(--primary-color);
+    display:grid;
 
-    box-shadow:var(--shadow-primary);
+    grid-template-columns:repeat(3,1fr);
 
-}
-
-
-
-/*====================================
-  AVATAR
-====================================*/
-
-.participant-card img{
-
-    width:75px;
-
-    height:75px;
-
-    border-radius:50%;
-
-    object-fit:cover;
-
-    margin-bottom:15px;
-
-    border:3px solid var(--primary-color);
+    gap:18px;
 
 }
 
-.participant-card h3{
+/* ===========================
+PARTICIPANT CARD
+=========================== */
 
-    margin-bottom:6px;
+.participant-card{
 
-}
+    background:white;
 
-.participant-card p{
+    border-radius:18px;
 
-    color:var(--text-secondary);
-
-    margin-bottom:8px;
-
-}
-
-.participant-card span{
-
-    font-size:var(--font-size-sm);
-
-    color:var(--text-muted);
-
-}
-
-
-
-/*====================================
-  SPEAKING CARD
-====================================*/
-
-.speaking{
-
-    border:2px solid var(--success-color);
-
-    animation:pulse 1.5s infinite;
-
-}
-
-.status{
-
-    color:var(--success-color);
-
-    font-weight:var(--font-weight-semibold);
-
-}
-
-
-
-/*====================================
-  SPEAKING ANIMATION
-====================================*/
-
-@keyframes pulse{
-
-    0%{
-
-        box-shadow:0 0 0 0 rgba(34,197,94,.45);
-
-    }
-
-    70%{
-
-        box-shadow:0 0 0 14px rgba(34,197,94,0);
-
-    }
-
-    100%{
-
-        box-shadow:0 0 0 0 rgba(34,197,94,0);
-
-    }
-
-}
-
-
-/* =====================================================
-   discussion.css
-   Part 2 : Transcript | Messages | Discussion Info
-=====================================================*/
-
-
-/*====================================
-  TRANSCRIPT HEADER
-====================================*/
-
-.transcript-header{
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    margin-bottom:20px;
-
-}
-
-
-
-/*====================================
-  MESSAGE AREA
-====================================*/
-
-.messages{
-
-    height:550px;
-
-    overflow-y:auto;
+    padding:18px;
 
     display:flex;
 
     flex-direction:column;
 
-    gap:20px;
+    align-items:center;
 
-    padding-right:10px;
+    justify-content:center;
 
-}
+    min-height:100px;
 
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
 
-
-/*====================================
-  CUSTOM SCROLLBAR
-====================================*/
-
-.messages::-webkit-scrollbar{
-
-    width:8px;
+    transition:.3s;
 
 }
 
-.messages::-webkit-scrollbar-track{
+.participant-card img{
 
-    background:var(--background-color);
+    width:90px;
 
-    border-radius:10px;
+    height:90px;
 
-}
+    border-radius:50%;
 
-.messages::-webkit-scrollbar-thumb{
-
-    background:var(--primary-color);
-
-    border-radius:10px;
+    object-fit:cover;
 
 }
 
+.participant-name{
 
+    margin-top:15px;
 
-/*====================================
-  COMMON MESSAGE
-====================================*/
+    font-size:20px;
 
-.message{
+    font-weight:600;
+
+}
+
+.participant-personality{
+
+    color:#666;
+
+    margin-top:5px;
+
+}
+
+.participant-style{
+
+    color:#999;
+
+    font-size:14px;
+
+}
+
+.participant-status{
+
+    margin-top:12px;
+
+    font-weight:600;
+
+}
+
+/* ===========================
+STATUS COLORS
+=========================== */
+
+.speaking{
+
+    border:3px solid #6C63FF;
+
+    box-shadow:0 0 25px rgba(108,99,255,.35);
+
+}
+
+.listening{
+
+    border:2px solid #ddd;
+
+}
+
+.thinking{
+
+    border:3px solid orange;
+
+}
+
+.user-card{
+
+    border:3px solid #00b894;
+
+}
+
+/* ===========================
+VOICE BARS
+=========================== */
+
+.voice-bars{
+
+    display:flex;
+
+    gap:4px;
+
+    margin-top:14px;
+
+    height:25px;
+
+}
+
+.voice-bars span{
+    width:5px;
+    height:8px;
+    background:#6C63FF;
+    border-radius:3px;
+}
+
+.voice-bars span:nth-child(2){
+
+    animation-delay:.15s;
+
+}
+
+.voice-bars span:nth-child(3){
+
+    animation-delay:.3s;
+
+}
+
+.voice-bars span:nth-child(4){
+
+    animation-delay:.45s;
+
+}
+
+@keyframes voice{
+
+    0%{
+
+        height:8px;
+
+    }
+
+    50%{
+
+        height:24px;
+
+    }
+
+    100%{
+
+        height:8px;
+
+    }
+
+}
+
+/* ===========================
+TRANSCRIPT
+=========================== */
+
+#transcript-panel{
+
+    background:white;
+
+    border-radius:18px;
+
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+
+    display:flex;
+
+    flex-direction:column;
+
+    overflow:hidden;
+
+}
+
+#transcript-title{
 
     padding:18px;
 
-    border-radius:var(--radius-lg);
+    font-size:20px;
 
-    animation:fadeIn .35s ease;
+    font-weight:600;
 
-}
-
-.message strong{
-
-    display:block;
-
-    margin-bottom:8px;
-
-    font-weight:var(--font-weight-semibold);
+    border-bottom:1px solid #eee;
 
 }
 
-.message p{
+#transcript-body{
 
-    line-height:1.8;
+    flex:1;
 
-}
-
-
-
-/*====================================
-  AI MESSAGE
-====================================*/
-
-.message.ai{
-
-    align-self:flex-start;
-
-    width:80%;
-
-    background:var(--background-color);
-
-    border-left:5px solid var(--primary-color);
-
-}
-
-.message.ai strong{
-
-    color:var(--primary-color);
-
-}
-
-
-
-/*====================================
-  USER MESSAGE
-====================================*/
-
-.message.user{
-
-    align-self:flex-end;
-
-    width:80%;
-
-    background:rgba(108,99,255,.10);
-
-    border-right:5px solid var(--primary-color);
-
-}
-
-.message.user strong{
-
-    color:var(--primary-dark);
-
-}
-
-
-
-/*====================================
-  DISCUSSION INFO PANEL
-====================================*/
-
-.info-card{
-
-    background:var(--background-color);
-
-    border:1px solid var(--border-color);
-
-    border-radius:var(--radius-md);
+    overflow-y:auto;
 
     padding:18px;
+
+}
+
+.transcript-message{
 
     margin-bottom:18px;
 
-    transition:var(--transition-normal);
+}
+
+.speaker-name{
+
+    color:#6C63FF;
+
+    font-weight:700;
 
 }
 
-.info-card:hover{
+.speaker-text{
 
-    border-color:var(--primary-color);
+    margin-top:5px;
 
-    transform:translateY(-3px);
-
-    box-shadow:var(--shadow-primary);
+    line-height:1.6;
 
 }
 
-.info-card h3{
+/* ===========================
+CONTROLS
+=========================== */
 
-    margin-bottom:8px;
-
-    font-size:var(--font-size-base);
-
-}
-
-.info-card p{
-
-    color:var(--text-secondary);
-
-}
-
-
-
-/*====================================
-  FADE ANIMATION
-====================================*/
-
-@keyframes fadeIn{
-
-    from{
-
-        opacity:0;
-
-        transform:translateY(15px);
-
-    }
-
-    to{
-
-        opacity:1;
-
-        transform:translateY(0);
-
-    }
-
-}
-
-
-/* =====================================================
-   discussion.css
-   Part 3 : Controls | Buttons | Footer Styles
-=====================================================*/
-
-
-/*====================================
-  CONTROLS SECTION
-====================================*/
-
-.controls{
+#controls{
 
     display:flex;
 
     justify-content:center;
 
-    align-items:center;
+    gap:18px;
 
-    gap:25px;
-
-    padding:40px 8%;
+    padding:8px;
 
 }
 
+#controls button{
 
+    width:60px;
 
-/*====================================
-  COMMON CONTROL BUTTON
-====================================*/
+    height:60px;
 
-.controls button{
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    gap:10px;
-
-    transition:var(--transition-normal);
-
-}
-
-
-
-/*====================================
-  MICROPHONE BUTTON
-====================================*/
-
-.mic-btn{
-
-    width:70px;
-
-    height:70px;
+    border:none;
 
     border-radius:50%;
 
-    background:var(--primary-color);
+    background:#6C63FF;
 
-    color:var(--white);
+    color:white;
 
-    font-size:1.4rem;
+    cursor:pointer;
 
-    box-shadow:var(--shadow-primary);
-
-}
-
-.mic-btn:hover{
-
-    transform:scale(1.08);
-
-    background:var(--primary-dark);
+    font-size:22px;
 
 }
 
+#end-btn{
 
-
-/*====================================
-  MUTE BUTTON
-====================================*/
-
-.mute-btn{
-
-    width:70px;
-
-    height:70px;
-
-    border-radius:50%;
-
-    background:var(--warning-color);
-
-    color:var(--white);
-
-    font-size:1.3rem;
+    background:#ff4d4d;
 
 }
 
-.mute-btn:hover{
-
-    transform:scale(1.08);
-
+.speaking{
+    border:3px solid #6C63FF;
+    transform:scale(1.05);
+    box-shadow:0 0 30px rgba(108,99,255,.45);
 }
 
-
-
-/*====================================
-  END DISCUSSION BUTTON
-====================================*/
-
-.end-btn{
-
-    padding:18px 32px;
-
-    border-radius:var(--radius-round);
-
-    background:var(--danger-color);
-
-    color:var(--white);
-
-    font-size:var(--font-size-base);
-
-    font-weight:var(--font-weight-semibold);
-
+.speaking .voice-bars span{
+    animation:voice .8s infinite;
 }
 
-.end-btn:hover{
-
-    background:#dc2626;
-
-    transform:translateY(-3px);
-
-    box-shadow:0 10px 25px rgba(220,38,38,.25);
-
-}
-
-
-
-/*====================================
-  BUTTON ICONS
-====================================*/
-
-.controls i{
-
-    font-size:1.2rem;
-
-}
-
-
-
-/*====================================
-  PANEL HOVER EFFECT
-====================================*/
-
-.participants-panel,
-.transcript-panel,
-.discussion-info{
-
-    transition:var(--transition-normal);
-
-}
-
-.participants-panel:hover,
-.transcript-panel:hover,
-.discussion-info:hover{
-
-    box-shadow:var(--shadow-lg);
-
-}
-
-
-
-/*====================================
-  RESPONSIVE PREPARATION
-====================================*/
-
-.participants-panel,
-.transcript-panel,
-.discussion-info{
-
-    min-height:650px;
-
-}
-
-
-
-/*====================================
-  SMALL SCREEN TABLETS
-====================================*/
-
-@media (max-width:992px){
-
-    .discussion-container{
-
-        grid-template-columns:1fr;
-
-    }
-
-    .participants-panel,
-    .discussion-info{
-
-        order:2;
-
-    }
-
-    .transcript-panel{
-
-        order:1;
-
-    }
-
-}
-
-
-
-/*====================================
-  MOBILE
-====================================*/
-
-@media (max-width:768px){
-
-    .discussion-header{
-
-        flex-direction:column;
-
-        gap:20px;
-
-        text-align:center;
-
-    }
-
-    .controls{
-
-        flex-wrap:wrap;
-
-    }
-
-    .message.ai,
-    .message.user{
-
-        width:100%;
-
-    }
-
+.listening .voice-bars span{
+    animation:none;
+    height:8px;
 }
