@@ -303,6 +303,21 @@ const SpeechRecognitionAPI =
 let userTurnActive = false;
 let recognition = null;
 
+// A mic click that arrives while an AI is still talking is queued and
+// starts listening as soon as that AI finishes (so the AI's voice is
+// never recorded and the click isn't lost).
+let micQueued = false;
+let aiTurnBusy = false;
+
+function startQueuedMic() {
+
+    if (!micQueued) return;
+
+    micQueued = false;
+
+    startListening();
+}
+
 async function sendUserMessage(text) {
 
     // Transcript first, then the existing userMessage endpoint
@@ -347,27 +362,7 @@ async function sendUserMessage(text) {
     }
 }
 
-micBtn.addEventListener("click", () => {
-
-    // Second click while listening = finished speaking
-    if (userTurnActive) {
-
-        if (recognition) recognition.stop();
-
-        return;
-    }
-
-    if (!SpeechRecognitionAPI) {
-
-        alert("Speech recognition is not supported in this browser. Please use Chrome or Edge.");
-
-        return;
-    }
-
-    // Don't record the AI's voice
-    if (speechSynthesis.speaking) return;
-
-    userTurnActive = true;
+function startListening() {
 
     let finalText = "";
 
@@ -422,6 +417,40 @@ micBtn.addEventListener("click", () => {
         recognition = null;
         userTurnActive = false;
     }
+}
+
+micBtn.addEventListener("click", () => {
+
+    // Second click while listening = finished speaking
+    if (recognition) {
+
+        recognition.stop();
+
+        return;
+    }
+
+    // Already queued or sending a message
+    if (userTurnActive) return;
+
+    if (!SpeechRecognitionAPI) {
+
+        alert("Speech recognition is not supported in this browser. Please use Chrome or Edge.");
+
+        return;
+    }
+
+    // Pauses new AI turns from now on
+    userTurnActive = true;
+
+    // An AI is talking (or its reply is loading): wait for it to finish
+    if (aiTurnBusy || speechSynthesis.speaking) {
+
+        micQueued = true;
+
+        return;
+    }
+
+    startListening();
 });
 
 // =======================================
@@ -432,6 +461,8 @@ async function nextTurn() {
     if (speechSynthesis.speaking || userTurnActive) {
         return;
     }
+
+    aiTurnBusy = true;
 
     try {
 
@@ -497,6 +528,14 @@ async function nextTurn() {
 
     }
 
+    finally {
+
+        aiTurnBusy = false;
+
+        startQueuedMic();
+
+    }
+
 }
 // =======================================
 // Start Discussion
@@ -529,6 +568,8 @@ async function startDiscussion() {
         typeTranscript(first.name, first.message),
         speak(firstParticipant, first.message)
     ]);
+
+    startQueuedMic();
 
     // Start continuous discussion
     discussionLoop();
