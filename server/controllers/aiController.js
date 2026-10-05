@@ -311,6 +311,8 @@ Avoid copying words or sentence structures from other participants.
 
 Express the same idea differently if necessary.
 
+9. If the previous speaker is the USER, treat the user as a real GD participant. Respond naturally to the user's point when appropriate. You may agree, disagree, challenge the point, ask a follow-up question, or build on it. Do not always directly address the user; continue the discussion naturally when appropriate.
+
 =========================
 OUTPUT
 =========================
@@ -388,11 +390,37 @@ function userMessage(req, res) {
 
     } = req.body;
 
+    const text = typeof message === "string" ? message.trim() : "";
+
+    if (!text) {
+
+        return res.status(400).json({
+
+            success: false,
+
+            message: "Message is empty"
+
+        });
+
+    }
+
+    if (!getDiscussion(discussionId)) {
+
+        return res.status(404).json({
+
+            success: false,
+
+            message: "Discussion not found"
+
+        });
+
+    }
+
     addMessage(
 
         discussionId,
 
-        `User: ${message}`
+        `User: ${text}`
 
     );
 

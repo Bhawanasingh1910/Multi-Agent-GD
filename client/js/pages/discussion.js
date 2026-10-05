@@ -290,11 +290,146 @@ function highlightSpeaker(name){
 }
 
 // =======================================
+// User Participation (mic)
+// =======================================
+
+const micBtn = document.getElementById("mic-btn");
+const SpeechRecognitionAPI =
+    window.SpeechRecognition || window.webkitSpeechRecognition;
+
+// True from mic start until the user's message is saved (or discarded).
+// While true, nextTurn() does nothing, so the discussion loop's next
+// tick after this is the single AI turn that sees the user's message.
+let userTurnActive = false;
+let recognition = null;
+
+async function sendUserMessage(text) {
+
+    // Transcript first, then the existing userMessage endpoint
+    typeTranscript("You", text);
+
+    try {
+
+        const response = await fetch(
+
+            "http://localhost:5000/api/ai/discussion/user",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    discussionId: session.discussionId,
+                    message: text
+                })
+            }
+        );
+
+        const result = await response.json();
+
+        if (!result.success) {
+            throw new Error(result.message || "User message failed");
+        }
+
+    }
+
+    catch (err) {
+
+        console.error(err);
+        alert("Your message could not be sent: " + err.message);
+
+    }
+
+    finally {
+
+        userTurnActive = false;
+
+    }
+}
+
+micBtn.addEventListener("click", () => {
+
+    // Second click while listening = finished speaking
+    if (userTurnActive) {
+
+        if (recognition) recognition.stop();
+
+        return;
+    }
+
+    if (!SpeechRecognitionAPI) {
+
+        alert("Speech recognition is not supported in this browser. Please use Chrome or Edge.");
+
+        return;
+    }
+
+    // Don't record the AI's voice
+    if (speechSynthesis.speaking) return;
+
+    userTurnActive = true;
+
+    let finalText = "";
+
+    recognition = new SpeechRecognitionAPI();
+    recognition.lang = "en-IN";
+    recognition.continuous = false;
+    recognition.interimResults = false;
+
+    recognition.onresult = (e) => {
+
+        for (let i = e.resultIndex; i < e.results.length; i++) {
+
+            if (e.results[i].isFinal) {
+                finalText += e.results[i][0].transcript + " ";
+            }
+        }
+    };
+
+    recognition.onerror = (e) => {
+
+        console.error("Speech recognition error:", e.error);
+    };
+
+    // onend fires exactly once per session -> one message per speech
+    recognition.onend = () => {
+
+        recognition = null;
+
+        const text = finalText.trim();
+
+        // Empty speech is never submitted
+        if (!text) {
+
+            userTurnActive = false;
+
+            return;
+        }
+
+        sendUserMessage(text);
+    };
+
+    try {
+
+        recognition.start();
+
+    }
+
+    catch (err) {
+
+        console.error(err);
+
+        recognition = null;
+        userTurnActive = false;
+    }
+});
+
+// =======================================
 // Next AI Turn
 // =======================================
 async function nextTurn() {
 
-    if (speechSynthesis.speaking) {
+    if (speechSynthesis.speaking || userTurnActive) {
         return;
     }
 
