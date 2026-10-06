@@ -183,10 +183,19 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         SCORE_KEYS.forEach(key => {
 
-            $(key + "-score").textContent = f.scores[key] + "%";
+            const value = f.scores[key];
 
-            $(key + "-bar").style.width = f.scores[key] + "%";
+            // null = could not be measured (for example pace)
+            $(key + "-score").textContent = value === null ? "--" : value + "%";
+
+            $(key + "-bar").style.width = (value === null ? 0 : value) + "%";
         });
+
+        // Tell the user how much to trust this report
+        if (f.quality && f.quality.note) {
+
+            $("overall-message").textContent += " " + f.quality.note;
+        }
 
         if (f.source === "local") {
 
@@ -195,9 +204,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
 
         // Speaking statistics
-        $("speaking-time").textContent = Store.mmss(m.speakSeconds);
+        $("speaking-time").textContent =
+            (m.speakEstimated ? "~" : "") + Store.mmss(m.speakSeconds);
         $("total-words").textContent = m.totalWords;
-        $("words-per-minute").textContent = m.wpm;
+        $("words-per-minute").textContent = m.wpm === null ? "--" : m.wpm;
         $("questions-answered").textContent = m.questionsAnswered;
         $("response-count").textContent = m.responses;
         $("interruptions").textContent = m.interruptions;
@@ -205,8 +215,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         // Filler words
         $("filler-total").textContent = m.fillers.total;
-        $("um-count").textContent = m.fillers.um;
-        $("uh-count").textContent = m.fillers.uh;
+        // Browser speech recognition usually removes um/uh, so 0 means "not detectable"
+        $("um-count").textContent = m.fillers.um || "n/a";
+        $("uh-count").textContent = m.fillers.uh || "n/a";
+        $("um-count").title = $("uh-count").title =
+            "Speech recognition usually removes um/uh, so these can't be counted reliably.";
         $("like-count").textContent = m.fillers.like;
         $("know-count").textContent = m.fillers.know;
 
@@ -259,11 +272,11 @@ document.addEventListener("DOMContentLoaded", async () => {
             "Duration: " + Store.mmss(s.elapsedSeconds),
             "",
             "OVERALL SCORE: " + f.scores.overall + "%",
-            ...SCORE_KEYS.map(k => "  " + k + ": " + f.scores[k] + "%"),
+            ...SCORE_KEYS.map(k => "  " + k + ": " + (f.scores[k] === null ? "not measured" : f.scores[k] + "%")),
             "",
             "SPEAKING",
             "  Speaking time: " + Store.mmss(m.speakSeconds),
-            "  Words: " + m.totalWords + " | Pace: " + m.wpm + " wpm",
+            "  Words: " + m.totalWords + " | Pace: " + (m.wpm === null ? "not measured" : m.wpm + " wpm"),
             "  Responses: " + m.responses + " | Questions answered: " + m.questionsAnswered,
             "  Filler words: " + m.fillers.total +
                 " (um " + m.fillers.um + ", uh " + m.fillers.uh +
@@ -282,6 +295,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             "  Focus: " + f.nextFocus,
             "  Topic: " + f.nextTopic,
             "",
+            f.quality && f.quality.note ? "NOTE: " + f.quality.note : "",
             f.source === "local" ? "(Estimated report - AI review was unavailable)" : ""
         ];
 

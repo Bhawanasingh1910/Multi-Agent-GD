@@ -15,6 +15,9 @@ if (!Store.getUser() || !config || !session || !session.discussionId || !session
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
+// Language used for speech recognition and the AI voices
+const SPEECH_LANG = { English: "en-IN", Hindi: "hi-IN", Hinglish: "en-IN" }[config.language] || "en-IN";
+
 const meetingGrid = document.getElementById("meeting-grid");
 const transcriptBody = document.getElementById("transcript-body");
 const transcriptPanel = document.getElementById("transcript-panel");
@@ -68,13 +71,15 @@ const record = {
     feedback: null
 };
 
-function logLine(speaker, text, isUser, speakSeconds) {
+function logLine(speaker, text, isUser, speakSeconds, timed) {
 
     record.transcript.push({
         speaker,
         text,
         isUser: !!isUser,
-        speakSeconds: speakSeconds || 0
+        speakSeconds: speakSeconds || 0,
+        // true only when the speaking time was really measured (used for pace)
+        timed: !!timed
     });
 }
 
@@ -221,7 +226,17 @@ async function speak(participant, text) {
 
 let voice;
 
-if (participant.gender === "Female") {
+if (SPEECH_LANG === "hi-IN") {
+
+    // Hindi voices
+    const hindi = voices.filter(v => /^hi/i.test(v.lang || ""));
+
+    voice = participant.gender === "Female"
+        ? hindi.find(v => v.name.includes("Swara")) || hindi[0]
+        : hindi.find(v => v.name.includes("Madhur")) || hindi[0];
+
+}
+else if (participant.gender === "Female") {
 
     voice =
         voices.find(v => v.name.includes("Neerja")) ||
@@ -238,8 +253,8 @@ else{
 
 }
 
-utterance.voice = voice;
-utterance.lang = "en-IN";
+if (voice) utterance.voice = voice;
+utterance.lang = SPEECH_LANG;
 
         // Speaking Style
         switch (participant.speakingStyle) {
@@ -439,7 +454,11 @@ function startQueuedMic() {
     startListening();
 }
 
-async function sendUserMessage(text, speakSeconds) {
+// How long you can pause before your turn counts as finished.
+// Clicking the mic again always ends your turn immediately.
+const END_OF_TURN_SILENCE_MS = 4000;
+
+async function sendUserMessage(text, speakSeconds, timed) {
 
     // Transcript first, then the existing userMessage endpoint
     const typing = typeTranscript("You", text);
@@ -455,7 +474,7 @@ async function sendUserMessage(text, speakSeconds) {
             throw new Error(result.message || "User message failed");
         }
 
-        logLine("You", text, true, speakSeconds);
+        logLine("You", text, true, speakSeconds, timed);
 
     }
 
@@ -477,52 +496,99 @@ async function sendUserMessage(text, speakSeconds) {
     }
 }
 
+// Set when the user (or the silence timer) ends the turn on purpose
+let stopRequested = false;
+
 function startListening() {
 
     let finalText = "";
     let heardNothing = false;
+    let fatalError = false;
+    let restarts = 0;
 
-    let micStartedAt = Date.now();
-    let speechStartedAt = 0;
-    let speechMs = 0;
+    // Real speaking time = first speech started -> last speech ended
+    let firstSpeechAt = 0;
+    let lastSpeechEndAt = 0;
+    let lastResultAt = 0;
+
+    let silenceTimer = null;
+
+    stopRequested = false;
 
     setMicUi("listening");
 
-    recognition = new SpeechRecognitionAPI();
-    recognition.lang = "en-IN";
-    recognition.continuous = false;
-    recognition.interimResults = false;
+    const rec = new SpeechRecognitionAPI();
 
-    recognition.onstart = () => {
+    recognition = rec;
 
-        micStartedAt = Date.now();
+    rec.lang = SPEECH_LANG;
+    // Keep listening through pauses: one answer can have several sentences
+    rec.continuous = true;
+    rec.interimResults = true;
+
+    const armSilenceTimer = () => {
+
+        clearTimeout(silenceTimer);
+
+        // Only after the user has actually said something
+        if (!finalText.trim()) return;
+
+        silenceTimer = setTimeout(() => {
+
+            stopRequested = true;
+
+            try { rec.stop(); } catch { /* already stopped */ }
+
+        }, END_OF_TURN_SILENCE_MS);
     };
 
-    recognition.onspeechstart = () => {
+    rec.onspeechstart = () => {
 
-        speechStartedAt = Date.now();
+        if (!firstSpeechAt) firstSpeechAt = Date.now();
+
+        clearTimeout(silenceTimer);
     };
 
-    recognition.onspeechend = () => {
+    rec.onspeechend = () => {
 
-        if (speechStartedAt) {
+        lastSpeechEndAt = Date.now();
 
-            speechMs += Date.now() - speechStartedAt;
-            speechStartedAt = 0;
-        }
+        armSilenceTimer();
     };
 
-    recognition.onresult = (e) => {
+    rec.onresult = (e) => {
+
+        let interim = "";
 
         for (let i = e.resultIndex; i < e.results.length; i++) {
 
             if (e.results[i].isFinal) {
+
                 finalText += e.results[i][0].transcript + " ";
+
+                lastResultAt = Date.now();
+
+            }
+
+            else {
+
+                interim += e.results[i][0].transcript;
             }
         }
+
+        if (!firstSpeechAt) firstSpeechAt = Date.now();
+
+        clearTimeout(silenceTimer);
+
+        // Show what is being heard so the user knows it works
+        const heard = (finalText + interim).trim();
+
+        if (heard) setUserStatus("Listening: ..." + heard.slice(-45));
+
+        if (!interim) armSilenceTimer();
     };
 
-    recognition.onerror = (e) => {
+    rec.onerror = (e) => {
 
         console.error("Speech recognition error:", e.error);
 
@@ -535,15 +601,39 @@ function startListening() {
 
         if (e.error === "no-speech") heardNothing = true;
 
-        if (messages[e.error]) alert(messages[e.error]);
+        if (messages[e.error]) {
+
+            fatalError = true;
+
+            alert(messages[e.error]);
+        }
     };
 
-    // onend fires exactly once per session -> one message per speech
-    recognition.onend = () => {
+    // Browsers end a session after a long silence even in continuous mode.
+    // Keep listening until the user's turn is really over.
+    rec.onend = () => {
+
+        if (!stopRequested && !fatalError && !ended && restarts < 30 && recognition === rec) {
+
+            restarts++;
+
+            try {
+
+                rec.start();
+
+                return;
+
+            }
+
+            catch { /* fall through and finish */ }
+        }
+
+        clearTimeout(silenceTimer);
 
         recognition = null;
 
-        if (speechStartedAt) speechMs += Date.now() - speechStartedAt;
+        // Discussion already ended (End / Leave / time up): drop the rest
+        if (ended) return;
 
         const text = finalText.trim();
 
@@ -568,18 +658,24 @@ function startListening() {
             return;
         }
 
-        const speakSeconds = speechMs
-            ? speechMs / 1000
-            : Math.min((Date.now() - micStartedAt) / 1000, 60);
+        // Measured speaking time. If the browser gave no speech start/end
+        // events, say "not measured" instead of guessing from mic-open time.
+        const speechEnd = lastSpeechEndAt > firstSpeechAt ? lastSpeechEndAt : lastResultAt - 700;
+
+        const seconds = firstSpeechAt && speechEnd > firstSpeechAt
+            ? (speechEnd - firstSpeechAt) / 1000
+            : 0;
+
+        const timed = seconds >= 2;
 
         setMicUi("sending");
 
-        sendUserMessage(text, speakSeconds);
+        sendUserMessage(text, timed ? seconds : 0, timed);
     };
 
     try {
 
-        recognition.start();
+        rec.start();
 
     }
 
@@ -600,6 +696,8 @@ micBtn.addEventListener("click", () => {
 
     // Second click while listening = finished speaking
     if (recognition) {
+
+        stopRequested = true;
 
         recognition.stop();
 

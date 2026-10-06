@@ -11,8 +11,11 @@ function createDiscussion(id, data) {
         language: data.language,
         duration: data.duration,
         participants: data.participants,
+        userName: data.userName || "",
         conversation: [],
-        currentSpeaker: 0
+        currentSpeaker: 0,
+        // AI messages since the user last spoke (used to invite them in)
+        turnsSinceUser: 0
     });
 
     console.log("NOW IDS:", [...discussions.keys()]);
@@ -32,6 +35,12 @@ function addMessage(id, message) {
     if (!discussion) return;
 
     discussion.conversation.push(message);
+
+    if (typeof message === "string" && message.startsWith("User: ")) {
+        discussion.turnsSinceUser = 0;
+    } else {
+        discussion.turnsSinceUser++;
+    }
 }
 
 function getWeight(personality) {

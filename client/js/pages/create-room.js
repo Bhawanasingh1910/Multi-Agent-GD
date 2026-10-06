@@ -569,6 +569,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 duration: Number(duration.value),
 
+                userName: (Store.getUser() || {}).name || "",
+
                 participants: getAiParticipants()
 
             };

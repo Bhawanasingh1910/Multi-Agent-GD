@@ -13,6 +13,244 @@ const {
 
 
 // =======================================
+// HOW EACH AI SOUNDS
+// =======================================
+
+const PERSONALITY = {
+    Aggressive: "assertive and direct. Challenges weak points openly, sounds sure of themselves, short punchy sentences.",
+    Calm: "relaxed and measured. Thinks before speaking and softens disagreement.",
+    Curious: "inquisitive. Likes asking a sharp 'why' or 'how' about what was just said.",
+    Friendly: "warm and encouraging. Agrees where possible and builds on other people's points.",
+    Logical: "analytical. Backs points with reasons, cause and effect, numbers or a real example.",
+    Supportive: "backs up good points with extra reasoning and helps quieter people join in."
+};
+
+// words = target length of one spoken turn
+const STYLE = {
+    Concise: { how: "very short and to the point.", words: "10 to 20" },
+    Casual: { how: "relaxed everyday speech; informal words are fine.", words: "15 to 30" },
+    Formal: { how: "careful, proper wording.", words: "15 to 30" },
+    Professional: { how: "polished and well organised, but still conversational.", words: "15 to 35" },
+    Detailed: { how: "adds a little more explanation or one example.", words: "30 to 50" }
+};
+
+const LANGUAGE_RULE = {
+    English: "Speak in simple, natural spoken Indian English.",
+    Hindi: "Speak in Hindi, written in Devanagari script.",
+    Hinglish: "Speak in Hinglish: a natural Hindi-English mix written in Roman (English) letters, the way Indian college students talk."
+};
+
+const firstName = (name) => String(name || "").trim().split(/\s+/)[0] || "";
+
+const personalityText = (p) => PERSONALITY[p.personality] || String(p.personality || "");
+
+const styleOf = (p) => STYLE[p.speakingStyle] || { how: String(p.speakingStyle || ""), words: "15 to 35" };
+
+const languageRule = (language) => LANGUAGE_RULE[language] || LANGUAGE_RULE.English;
+
+
+// =======================================
+// TURN PROMPTS
+// =======================================
+
+function buildSystem(discussion, speaker, opening) {
+
+    const style = styleOf(speaker);
+
+    return `You are ${speaker.name}, taking part in a live Group Discussion (GD) held for college placement practice in India. Everyone is speaking out loud, so write ONLY what you would actually say.
+
+Your personality (${speaker.personality}): ${personalityText(speaker)}
+Your speaking style (${speaker.speakingStyle}): ${style.how}
+${languageRule(discussion.language)}
+
+How to speak:
+1. ${opening
+        ? "You are opening the discussion: say what the topic means to you in your own words and give your first clear opinion."
+        : "React to the specific point that was just made: agree with a reason, disagree politely with a reason, add an example, or ask one sharp question. Then add your own angle."}
+2. Say one main idea only. Use ${style.words} words, in 1 to 3 spoken sentences.
+3. Sound like a real college student talking, not writing: use contractions, no lists, no headings, no emojis, no quotation marks, no stage directions.
+4. Mention people by first name only now and then (for example "I see Priya's point, but..."), not in every turn.
+5. Never repeat an idea that has already been said. If the talk is going in circles, bring up a fresh angle that is still about the topic.
+6. Do not greet people again, do not introduce yourself, and do not summarise or wrap up the discussion.
+7. Do not start with filler praise like "Great point". Vary how you start.
+8. Stay in character as ${speaker.name}.
+
+Output ONLY the words you say. No name label, no JSON.`;
+}
+
+function buildTurnPrompt(discussion, speaker, situation) {
+
+    const userName = firstName(discussion.userName) || "the user";
+
+    const people = discussion.participants
+        .map(p => `- ${p.name} (${p.gender}), ${p.personality}, ${p.speakingStyle}`)
+        .join("\n");
+
+    const history = discussion.conversation
+        .slice(-14)
+        .map(line => line.startsWith("User: ")
+            ? `${userName} (USER): ${line.slice(6)}`
+            : line)
+        .join("\n");
+
+    return `Topic: ${discussion.topic}
+Mode: ${discussion.mode}
+
+People in the room:
+${people}
+- ${userName} (the real human student; their lines are marked USER)
+
+Conversation so far:
+${history || "(nobody has spoken yet)"}
+
+${situation}
+
+Now say your next line as ${speaker.name}.`;
+}
+
+// Works out what the next speaker should respond to
+function describeSituation(discussion) {
+
+    const userName = firstName(discussion.userName) || "the user";
+
+    const last = discussion.conversation[discussion.conversation.length - 1] || "";
+
+    const colon = last.indexOf(": ");
+
+    const prevSpeaker = colon > 0 ? last.slice(0, colon) : "";
+
+    const prevText = colon > 0 ? last.slice(colon + 2) : last;
+
+    const lines = [];
+
+    if (prevSpeaker === "User") {
+
+        lines.push(
+            `The previous speaker is the USER (${userName}). ` +
+            "If the previous speaker is the USER, treat the user as a real GD participant. " +
+            "Respond naturally to the user's point when appropriate. " +
+            "You may agree, disagree, challenge the point, ask a follow-up question, or build on it. " +
+            "Do not always directly address the user; continue the discussion naturally when appropriate."
+        );
+
+    }
+
+    else {
+
+        lines.push(`The last speaker was ${prevSpeaker || "someone"}. Respond to what they just said.`);
+
+        // Every 4th AI turn without the user, bring them in by name
+        if (discussion.turnsSinceUser >= 4 && discussion.turnsSinceUser % 4 === 0) {
+
+            lines.push(
+                `${userName} (the user) has not spoken for a while. ` +
+                `Briefly respond to the last point, then ask ${userName} by name what they think. Keep it short.`
+            );
+        }
+    }
+
+    const firstWord = prevText.trim().split(/\s+/)[0];
+
+    if (firstWord && firstWord.length < 20) {
+
+        lines.push(`Do not begin your line with the word "${firstWord.replace(/[^\wऀ-ॿ']/g, "")}".`);
+    }
+
+    return lines.join("\n");
+}
+
+
+// =======================================
+// CLEAN THE MODEL'S REPLY
+// =======================================
+
+function cleanLine(raw, names = []) {
+
+    if (typeof raw !== "string") throw new Error("Empty reply");
+
+    let text = raw.trim();
+
+    // Sometimes the model still answers with JSON
+    if (text.startsWith("{") || text.includes("```")) {
+
+        try {
+
+            const parsed = extractJson(text);
+
+            if (parsed && typeof parsed.message === "string") text = parsed.message;
+
+        }
+
+        catch { /* not JSON, keep the text */ }
+    }
+
+    text = text.replace(/```[a-z]*\n?|```/g, "").trim();
+
+    // Remove a leading "Name:" label
+    const label = text.match(/^\**\s*([A-Za-zऀ-ॿ][\wऀ-ॿ .'-]{0,30}?)\s*\**\s*:\s*\**\s+/);
+
+    if (label) {
+
+        const who = label[1].trim().toLowerCase();
+
+        if (/^user$/.test(who) || names.some(n => String(n).trim().toLowerCase() === who)) {
+
+            text = text.slice(label[0].length);
+        }
+    }
+
+    text = text
+        .replace(/^["“‘'`]+|["”’'`]+$/g, "")
+        .replace(/\*+/g, "")
+        .replace(/\s*\n+\s*/g, " ")
+        .replace(/\s{2,}/g, " ")
+        .trim();
+
+    if (text.length > 450) {
+
+        const cut = text.slice(0, 450);
+
+        const end = Math.max(cut.lastIndexOf(". "), cut.lastIndexOf("? "), cut.lastIndexOf("! "));
+
+        text = end > 150 ? cut.slice(0, end + 1) : cut.trim();
+    }
+
+    if (!text) throw new Error("Empty reply");
+
+    return text;
+}
+
+// One retry: an occasional empty or failed reply should not skip a turn
+async function generateLine(system, user, names) {
+
+    let lastError;
+
+    for (let attempt = 0; attempt < 2; attempt++) {
+
+        try {
+
+            const raw = await askGroq(user, 1024, { system, temperature: 0.9 });
+
+            console.log("Groq Reply:", raw);
+
+            return cleanLine(raw, names);
+
+        }
+
+        catch (err) {
+
+            lastError = err;
+
+            console.error("=========== GROQ ERROR (attempt " + (attempt + 1) + ") ===========");
+            console.error(err && err.message ? err.message : err);
+        }
+    }
+
+    throw lastError;
+}
+
+
+// =======================================
 // START DISCUSSION
 // =======================================
 
@@ -25,8 +263,17 @@ async function startDiscussion(req, res) {
             mode,
             language,
             duration,
-            participants
+            participants,
+            userName
         } = req.body;
+
+        if (!topic || !Array.isArray(participants) || participants.length === 0) {
+
+            return res.status(400).json({
+                success: false,
+                message: "A topic and at least one AI participant are required"
+            });
+        }
 
         const discussionId = crypto.randomUUID();
         console.log("Generated ID:", discussionId);
@@ -36,73 +283,47 @@ async function startDiscussion(req, res) {
             mode,
             language,
             duration,
-            participants
+            participants,
+            userName
         });
         console.log("Discussion Created:", discussionId);
 
+        const discussion = getDiscussion(discussionId);
+
         const firstSpeaker = participants[0];
 
-        const prompt = `
-You are ${firstSpeaker.name}.
-
-You are an Indian college student in a Placement Group Discussion.
-
-Topic:
-${topic}
-
-Your Personality:
-${firstSpeaker.personality}
-
-Speaking Style:
-${firstSpeaker.speakingStyle}
-
-Rules:
-
-- Speak first.
-- Sound like a real student.
-- Use simple English.
-- Maximum 2 or 3 short sentences.
-- Around 20-35 words.
-- Don't explain everything.
-- Don't sound like ChatGPT.
-- Be natural.
-
-Return ONLY JSON.
-
-{
-"name":"${firstSpeaker.name}",
-"message":"..."
-}
-`;
         let reply;
 
-try {
+        try {
 
-    const replyText = await askGroq(prompt);
-    reply = extractJson(replyText);
+            const message = await generateLine(
+                buildSystem(discussion, firstSpeaker, true),
+                buildTurnPrompt(discussion, firstSpeaker, "Nobody has spoken yet. You speak first."),
+                participants.map(p => p.name)
+            );
 
-}
-catch {
+            reply = { name: firstSpeaker.name, message };
 
-    // Gemini failed (quota exceeded)
+        }
 
-    reply = {
-        name: firstSpeaker.name,
-        message: `Hi everyone! Let's start our discussion on ${topic}. I would like to hear all opinion.`
-    };
+        catch {
 
-}
+            reply = {
+                name: firstSpeaker.name,
+                message: `Hi everyone! Let's start our discussion on ${topic}. I'd like to hear everyone's opinion.`
+            };
+        }
 
-addMessage(
-    discussionId,
-    `${reply.name}: ${reply.message}`
-);
+        addMessage(
+            discussionId,
+            `${reply.name}: ${reply.message}`
+        );
 
-res.json({
-    success: true,
-    discussionId,
-    response: reply
-});
+        res.json({
+            success: true,
+            discussionId,
+            response: reply
+        });
     }
 
     catch (err) {
@@ -151,205 +372,32 @@ async function nextTurn(req, res) {
         const speaker = nextSpeaker(discussionId);
         console.log("Speaker:", speaker);
 
-        const history = discussion.conversation
-    .slice(-12)   // last 12 messages
-    .join("\n");
+        let message;
 
-        const participantInfo = discussion.participants
-                    .map(p => `
-        Name : ${p.name}
-        Gender : ${p.gender}
-        Personality : ${p.personality}
-        Speaking Style : ${p.speakingStyle}
-        `)
-                    .join("\n");
+        try {
 
-       const prompt = `
-You are simulating a participant in a REAL Indian engineering college Group Discussion (GD).
+            message = await generateLine(
+                buildSystem(discussion, speaker, false),
+                buildTurnPrompt(discussion, speaker, describeSituation(discussion)),
+                discussion.participants.map(p => p.name)
+            );
 
-=========================
-DISCUSSION CONTEXT
-=========================
-Topic: ${discussion.topic}
-Mode: ${discussion.mode}
-Language: ${discussion.language}
+        }
 
-=========================
-CURRENT SPEAKER PROFILE
-=========================
-Name: ${speaker.name}
-Gender: ${speaker.gender}
-Personality: ${speaker.personality}
-Speaking Style: ${speaker.speakingStyle}
+        catch {
 
-=========================
-ALL PARTICIPANTS
-=========================
-${participantInfo}
+            // Nothing is added to the conversation and nothing is spoken:
+            // the client just skips this turn.
+            return res.status(502).json({
+                success: false,
+                message: "The AI could not respond. Check the Groq key and limits in the server window."
+            });
+        }
 
-=========================
-CONVERSATION HISTORY
-=========================
-${history}
-=========================
-RESPONSE GUIDELINES
-=========================
+        const reply = { name: speaker.name, message };
 
-You are ${speaker.name}, an Indian engineering student in a placement Group Discussion.
+        console.log("Reply:", reply);
 
-Your personality:
-${speaker.personality}
-
-Speaking style:
-${speaker.speakingStyle}
-
-Follow these rules:
-
-1. Stay in character.
-Sometimes your response can be very short.
-
-Examples:
-
-"I agree."
-
-"Good point."
-
-"I don't think so."
-
-"Exactly."
-
-"That's fair."
-
-Not every turn needs a long explanation.
-
-2. React to the previous speaker only if it feels natural.
-
-3. Do NOT keep extending the same argument.
-
-If the discussion has already focused on one point for several turns, naturally move to another aspect.
-
-Possible new directions:
-- advantages
-- disadvantages
-- practical implementation
-- student perspective
-- industry perspective
-- cost
-- ethics
-- future trends
-- technology
-- challenges
-- examples
-- government policies
-- environmental impact
-- social impact
-
-4. Your response should do ONLY ONE of these:
-
-- introduce a new argument
-- politely disagree
-- support someone with reasoning
-- ask another participant ONE meaningful question
-- give a practical example
-- compare two viewpoints
-- bring discussion back to the main topic
-
-Do NOT end every response with a question.
-
-Most responses should simply express an opinion naturally.
-
-5. Avoid repeating ideas already discussed unless you are challenging them.
-
-6. Never copy previous responses.
-
-7. Use different openings every time.
-
-Avoid repeating:
-- Wait, but...
-- Honestly...
-- See, what happens is...
-
-Instead naturally vary openings like:
-- I agree...
-- I see your point...
-- Another perspective is...
-- Let's consider...
-- In my opinion...
-- From a student's perspective...
-- I'd like to add...
-- One thing we haven't discussed...
-- Can I challenge that idea?
-
-8. Keep it conversational.
-
-- 1–2 sentences
-- 15–30 words
-- Natural spoken English
-- Sound like a real college student
-Use contractions naturally.
-
-Examples:
-
-I'm
-I'd
-We've
-It's
-Don't
-Can't
-
-Occasionally hesitate naturally.
-
-Examples:
-
-"I think..."
-"Maybe..."
-"I'm not completely sure..."
-"Personally..."
-- Don't sound like AI
-
-Never reuse phrases from the previous response.
-
-Avoid copying words or sentence structures from other participants.
-
-Express the same idea differently if necessary.
-
-9. If the previous speaker is the USER, treat the user as a real GD participant. Respond naturally to the user's point when appropriate. You may agree, disagree, challenge the point, ask a follow-up question, or build on it. Do not always directly address the user; continue the discussion naturally when appropriate.
-
-=========================
-OUTPUT
-=========================
-
-Return ONLY valid JSON.
-
-{
-  "name":"${speaker.name}",
-  "message":"..."
-}`;
-
-        let reply;
-
-try {
-
-    const replyText = await askGroq(prompt);
-    console.log("Groq Reply:", replyText);
-
-    reply = extractJson(replyText);
-
-}
-catch (err) {
-
-    console.error("=========== GROQ ERROR ===========");
-    console.dir(err, { depth: null });
-    console.error("==================================");
-
-    reply = {
-        name: speaker.name,
-        message: "Sorry, I couldn't generate a response."
-    };
-
-}
-
-console.log("Reply:", reply);
         addMessage(
             discussionId,
             `${reply.name}: ${reply.message}`
@@ -434,6 +482,7 @@ function userMessage(req, res) {
 
 }
 
+
 // =======================================
 // FEEDBACK
 // =======================================
@@ -466,7 +515,8 @@ async function feedback(req, res) {
                 speaker: String(t.speaker || "").slice(0, 40),
                 text: t.text.trim().slice(0, 1000),
                 isUser: t.isUser === true,
-                speakSeconds: Number(t.speakSeconds) || 0
+                speakSeconds: Number(t.speakSeconds) || 0,
+                timed: t.timed === true
             }));
 
         const result = await buildFeedback({
@@ -474,7 +524,10 @@ async function feedback(req, res) {
             mode: String(mode || "").slice(0, 60),
             language: String(language || "").slice(0, 40),
             participants: Array.isArray(participants)
-                ? participants.slice(0, 8).map(p => ({ name: String(p && p.name || "").slice(0, 40) }))
+                ? participants.slice(0, 8).map(p => ({
+                    name: String(p && p.name || "").slice(0, 40),
+                    personality: String(p && p.personality || "").slice(0, 30)
+                }))
                 : [],
             transcript: cleanTranscript
         }, askGroq);
@@ -500,6 +553,9 @@ module.exports = {
 
     userMessage,
 
-    feedback
+    feedback,
+
+    // exported for tests
+    cleanLine
 
 };
