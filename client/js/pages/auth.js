@@ -200,7 +200,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Form Submit
     // ==========================
 
-    authForm.addEventListener("submit", (event) => {
+    authForm.addEventListener("submit", async (event) => {
 
         event.preventDefault();
 
@@ -250,6 +250,70 @@ document.addEventListener("DOMContentLoaded", () => {
 
         }
 
+        // ---- Accounts live in this browser only (placeholder until
+        // ---- the real auth API is linked). Passwords are hashed.
+
+        const accounts = Store.getAccounts();
+
+        const key = userEmail.toLowerCase();
+
+        const hash = await Store.hashPassword(key, userPassword);
+
+        if (isLogin) {
+
+            const account = accounts[key];
+
+            if (!account) {
+
+                showError("No account found with this email. Please sign up.");
+
+                return;
+            }
+
+            if (account.hash !== hash) {
+
+                showError("Incorrect password.");
+
+                return;
+            }
+
+            Store.setUser({
+                name: account.name,
+                email: account.email,
+                college: account.college || "",
+                language: account.language || "English"
+            });
+
+        }
+
+        else {
+
+            if (accounts[key]) {
+
+                showError("An account with this email already exists. Please login.");
+
+                return;
+            }
+
+            accounts[key] = {
+                name,
+                email: userEmail,
+                hash,
+                college: "",
+                language: "English",
+                createdAt: new Date().toISOString()
+            };
+
+            Store.saveAccounts(accounts);
+
+            Store.setUser({
+                name,
+                email: userEmail,
+                college: "",
+                language: "English"
+            });
+        }
+
         authForm.reset();
 
         window.location.href = "dashboard.html";
@@ -257,9 +321,60 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // ==========================
+    // Forgot password / Google
+    // ==========================
+
+    forgotPassword.addEventListener("click", (event) => {
+
+        event.preventDefault();
+
+        showError("Password reset will be available once the API is linked.");
+
+    });
+
+    const googleBtn = document.getElementById("google-btn");
+
+    if (googleBtn) {
+
+        googleBtn.addEventListener("click", (event) => {
+
+            event.preventDefault();
+
+            showError("Google sign-in will be available once the API is linked.");
+
+        });
+    }
+
+    // ==========================
     // Default Screen
     // ==========================
 
-    showLogin();
+    // Already logged in -> go straight to the dashboard
+    if (Store.getUser()) {
+
+        window.location.href = "dashboard.html";
+
+        return;
+    }
+
+    // index.html "Sign up" buttons link here with #signup
+    function showFromHash() {
+
+        if (window.location.hash === "#signup") {
+
+            showSignup();
+
+        }
+
+        else {
+
+            showLogin();
+
+        }
+    }
+
+    window.addEventListener("hashchange", showFromHash);
+
+    showFromHash();
 
 });

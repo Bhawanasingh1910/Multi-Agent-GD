@@ -5,6 +5,8 @@
 
 document.addEventListener("DOMContentLoaded", () => {
 
+    if (!Store.requireLogin()) return;
+
     // ============================================
     // DOM Elements
     // ============================================
@@ -573,24 +575,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
             try {
 
-                const response = await fetch(
-                    "http://localhost:5000/api/ai/discussion/start",
-                    {
+                startDiscussionBtn.disabled = true;
 
-                        method: "POST",
-
-                        headers: {
-
-                            "Content-Type": "application/json"
-
-                        },
-
-                        body: JSON.stringify(data)
-
-                    }
+                const result = await apiPost(
+                    "/api/ai/discussion/start",
+                    data
                 );
 
-                const result = await response.json();
+                if (!result.success) {
+
+                    throw new Error(result.message || "Could not start the discussion");
+
+                }
 
                 localStorage.setItem(
                     "discussionSession",
@@ -599,7 +595,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 localStorage.setItem(
                     "discussionConfig",
-                    JSON.stringify(data)
+                    JSON.stringify({
+                        ...data,
+                        aiCount: data.participants.length
+                    })
                 );
 
                 window.location.href = "discussion.html";
@@ -610,7 +609,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 console.log(err);
 
-                alert("Server Error");
+                startDiscussionBtn.disabled = false;
+
+                showError("Could not start the discussion. Is the server running? (" + err.message + ")");
 
             }
 
@@ -688,6 +689,15 @@ document.addEventListener("DOMContentLoaded", () => {
     // ============================================
 
     loadPreviousConfiguration();
+
+    // First visit: use the language chosen in the profile
+    const profileUser = Store.getUser();
+
+    if (profileUser && profileUser.language && !localStorage.getItem("discussionConfig")) {
+
+        language.value = profileUser.language;
+
+    }
 
     attachAiEvents();
 

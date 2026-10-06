@@ -315,74 +315,7 @@
 
         </thead>
 
-        <tbody>
-
-            <tr>
-
-                <td>AI in Education</td>
-
-                <td>27 Jul</td>
-
-                <td>10 Min</td>
-
-                <td>84%</td>
-
-                <td>
-
-                    <button class="open-report-btn">
-
-                        Open
-
-                    </button>
-
-                </td>
-
-            </tr>
-
-            <tr>
-
-                <td>Remote Work</td>
-
-                <td>25 Jul</td>
-
-                <td>15 Min</td>
-
-                <td>79%</td>
-
-                <td>
-
-                    <button class="open-report-btn">
-
-                        Open
-
-                    </button>
-
-                </td>
-
-            </tr>
-
-            <tr>
-
-                <td>Electric Vehicles</td>
-
-                <td>23 Jul</td>
-
-                <td>20 Min</td>
-
-                <td>87%</td>
-
-                <td>
-
-                    <button class="open-report-btn">
-
-                        Open
-
-                    </button>
-
-                </td>
-
-            </tr>
-
+        <tbody id="recent-body">
         </tbody>
 
     </table>
@@ -481,18 +414,9 @@
 
     <div class="feedback-card">
 
-        <h3>
+        <h3 id="latest-feedback-title">Great Progress! 🎉</h3>
 
-            Great Progress! 🎉
-
-        </h3>
-
-        <p>
-
-            Your confidence has improved by 12%
-            compared to your last discussion.
-
-        </p>
+        <p id="latest-feedback-text">Your confidence has improved by 12% compared to your last discussion.</p>
 
         <button id="view-report-btn">
 
@@ -588,6 +512,7 @@
 
 <!-- ================= JAVASCRIPT ================= -->
 
+<script src="../js/api.js"></script>
 <script src="../js/main.js"></script>
 
 <script src="../js/pages/dashboard.js"></script>

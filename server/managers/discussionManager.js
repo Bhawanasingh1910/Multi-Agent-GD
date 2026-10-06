@@ -73,6 +73,9 @@ function nextSpeaker(id) {
         (_, index) => index !== discussion.currentSpeaker
     );
 
+    // Only one AI participant: it keeps speaking after the user
+    if (candidates.length === 0) candidates = participants;
+
     const totalWeight = candidates.reduce(
         (sum, p) => sum + getWeight(p.personality),
         0

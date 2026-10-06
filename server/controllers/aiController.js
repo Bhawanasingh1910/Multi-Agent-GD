@@ -2,6 +2,8 @@ const crypto = require("crypto");
 
 const { askGroq } = require("../services/groqService");
 
+const { buildFeedback, extractJson } = require("../services/feedbackService");
+
 const {
     createDiscussion,
     getDiscussion,
@@ -77,7 +79,7 @@ Return ONLY JSON.
 try {
 
     const replyText = await askGroq(prompt);
-    reply = JSON.parse(replyText);
+    reply = extractJson(replyText);
 
 }
 catch {
@@ -331,7 +333,7 @@ try {
     const replyText = await askGroq(prompt);
     console.log("Groq Reply:", replyText);
 
-    reply = JSON.parse(replyText);
+    reply = extractJson(replyText);
 
 }
 catch (err) {
@@ -432,12 +434,72 @@ function userMessage(req, res) {
 
 }
 
+// =======================================
+// FEEDBACK
+// =======================================
+
+async function feedback(req, res) {
+
+    try {
+
+        const {
+            topic,
+            mode,
+            language,
+            participants,
+            transcript
+        } = req.body;
+
+        if (!Array.isArray(transcript) || transcript.length === 0) {
+
+            return res.status(400).json({
+                success: false,
+                message: "Transcript is empty"
+            });
+        }
+
+        // Basic size limits + shape check
+        const cleanTranscript = transcript
+            .slice(-300)
+            .filter(t => t && typeof t.text === "string" && t.text.trim())
+            .map(t => ({
+                speaker: String(t.speaker || "").slice(0, 40),
+                text: t.text.trim().slice(0, 1000),
+                isUser: t.isUser === true,
+                speakSeconds: Number(t.speakSeconds) || 0
+            }));
+
+        const result = await buildFeedback({
+            topic: String(topic || "").slice(0, 200),
+            mode: String(mode || "").slice(0, 60),
+            language: String(language || "").slice(0, 40),
+            participants: Array.isArray(participants)
+                ? participants.slice(0, 8).map(p => ({ name: String(p && p.name || "").slice(0, 40) }))
+                : [],
+            transcript: cleanTranscript
+        }, askGroq);
+
+        res.json({ success: true, feedback: result });
+
+    }
+
+    catch (err) {
+
+        res.status(500).json({
+            success: false,
+            message: err.message
+        });
+    }
+}
+
 module.exports = {
 
     startDiscussion,
 
     nextTurn,
 
-    userMessage
+    userMessage,
+
+    feedback
 
 };

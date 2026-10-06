@@ -5,54 +5,15 @@
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    console.log("Dashboard Loaded");
+    if (!Store.requireLogin()) return;
 
     // ==========================================
     // DOM ELEMENTS
     // ==========================================
 
-    const username = document.getElementById("username");
+    const $ = id => document.getElementById(id);
 
-    const dashboardLink = document.getElementById("dashboard-link");
-    const historyLink = document.getElementById("history-link");
-    const feedbackLink = document.getElementById("feedback-link");
-    const profileLink = document.getElementById("profile-link");
-
-    const startDiscussionBtn = document.getElementById("start-discussion-btn");
-
-    const startCard = document.getElementById("start-card");
-    const historyCard = document.getElementById("history-card");
-    const feedbackCard = document.getElementById("feedback-card");
-    const profileCard = document.getElementById("profile-card");
-
-    const reportButtons =
-        document.querySelectorAll(".open-report-btn");
-
-    const viewReportBtn =
-        document.getElementById("view-report-btn");
-
-    // ==========================================
-    // LOAD USER
-    // ==========================================
-
-    function loadUser() {
-
-        const savedName =
-            localStorage.getItem("username");
-
-        if (savedName) {
-
-            username.textContent = savedName;
-
-        }
-
-        else {
-
-            username.textContent = "Guest";
-
-        }
-
-    }
+    const user = Store.getUser();
 
     // ==========================================
     // NAVIGATION
@@ -64,152 +25,166 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
 
-    // ==========================================
-    // ACTIVE NAVBAR
-    // ==========================================
+    // Cards, buttons and navbar links
+    const clicks = {
+        "start-discussion-btn": "create-room.html",
+        "start-card": "create-room.html",
+        "history-card": "history.html",
+        "feedback-card": "feedback.html",
+        "profile-card": "profile.html",
+        "view-report-btn": "feedback.html"
+    };
 
-    function highlightCurrentPage() {
+    Object.keys(clicks).forEach(id => {
 
-        dashboardLink.classList.add("active");
-
-    }
-
-    // ==========================================
-    // HERO BUTTON
-    // ==========================================
-
-    startDiscussionBtn.addEventListener("click", () => {
-
-        navigate("create-discussion.html");
+        $(id).addEventListener("click", () => navigate(clicks[id]));
 
     });
 
-    // ==========================================
-    // QUICK ACTIONS
-    // ==========================================
+    ["dashboard", "history", "feedback", "profile"].forEach(name => {
 
-    startCard.addEventListener("click", () => {
+        $(name + "-link").addEventListener("click", (event) => {
 
-        navigate("create-discussion.html");
+            event.preventDefault();
 
-    });
-
-    historyCard.addEventListener("click", () => {
-
-        navigate("history.html");
-
-    });
-
-    feedbackCard.addEventListener("click", () => {
-
-        navigate("feedback.html");
-
-    });
-
-    profileCard.addEventListener("click", () => {
-
-        navigate("profile.html");
-
-    });
-
-    // ==========================================
-    // NAVBAR
-    // ==========================================
-
-    dashboardLink.addEventListener("click", (event) => {
-
-        event.preventDefault();
-
-        navigate("dashboard.html");
-
-    });
-
-    historyLink.addEventListener("click", (event) => {
-
-        event.preventDefault();
-
-        navigate("history.html");
-
-    });
-
-    feedbackLink.addEventListener("click", (event) => {
-
-        event.preventDefault();
-
-        navigate("feedback.html");
-
-    });
-
-    profileLink.addEventListener("click", (event) => {
-
-        event.preventDefault();
-
-        navigate("profile.html");
-
-    });
-
-    // ==========================================
-    // OPEN REPORT BUTTONS
-    // ==========================================
-
-    reportButtons.forEach((button) => {
-
-        button.addEventListener("click", () => {
-
-            navigate("feedback.html");
+            navigate(name + ".html");
 
         });
 
     });
 
+    $("dashboard-link").classList.add("active");
+
+    // Profile chip in the navbar opens the profile page
+    const chip = document.querySelector(".navbar .profile");
+
+    if (chip) {
+
+        chip.style.cursor = "pointer";
+
+        chip.addEventListener("click", () => navigate("profile.html"));
+
+    }
+
     // ==========================================
-    // LATEST REPORT
+    // USER
     // ==========================================
 
-    viewReportBtn.addEventListener("click", () => {
+    $("username").textContent = user.name;
 
-        navigate("feedback.html");
+    // ==========================================
+    // STATS (from saved discussions)
+    // ==========================================
+
+    const stats = Store.stats();
+
+    const pct = (value) => stats.hasScores ? value + "%" : "--";
+
+    $("discussion-count").textContent = stats.count;
+
+    $("average-score").textContent = pct(stats.average);
+
+    $("practice-streak").textContent =
+        stats.streak + (stats.streak === 1 ? " Day" : " Days");
+
+    $("practice-time").textContent = Store.formatHours(stats.hours);
+
+    $("confidence-score").textContent = pct(stats.skills.confidence);
+
+    $("grammar-score").textContent = pct(stats.skills.grammar);
+
+    $("vocabulary-score").textContent = pct(stats.skills.vocabulary);
+
+    $("fluency-score").textContent = pct(stats.skills.fluency);
+
+    // ==========================================
+    // RECENT DISCUSSIONS
+    // ==========================================
+
+    const sessions = Store.getSessions()
+        .slice()
+        .sort((a, b) =>
+            new Date(b.endedAt || b.startedAt) - new Date(a.endedAt || a.startedAt));
+
+    const recentBody = $("recent-body");
+
+    recentBody.innerHTML = sessions.length === 0
+
+        ? `<tr><td colspan="5" style="text-align:center;">
+               No discussions yet. Start your first one!
+           </td></tr>`
+
+        : sessions.slice(0, 3).map(s => `
+            <tr>
+                <td>${Store.esc(s.topic)}</td>
+                <td>${Store.formatDate(s.endedAt || s.startedAt)}</td>
+                <td>${Store.mmss(s.elapsedSeconds)}</td>
+                <td>${s.feedback && s.feedback.scores ? s.feedback.scores.overall + "%" : "Pending"}</td>
+                <td>
+                    <button class="open-report-btn" data-id="${Store.esc(s.id)}">
+                        Open
+                    </button>
+                </td>
+            </tr>`).join("");
+
+    recentBody.addEventListener("click", (event) => {
+
+        const button = event.target.closest(".open-report-btn");
+
+        if (!button) return;
+
+        navigate("feedback.html?id=" + encodeURIComponent(button.dataset.id));
 
     });
 
     // ==========================================
-    // LOAD DASHBOARD STATS
+    // LATEST FEEDBACK
     // ==========================================
 
-    function loadDashboardStats() {
+    const scored = sessions.filter(s => s.feedback && s.feedback.scores);
 
-        document.getElementById("discussion-count").textContent = "18";
+    if (scored.length === 0) {
 
-        document.getElementById("average-score").textContent = "82%";
+        $("latest-feedback-title").textContent = "No feedback yet";
 
-        document.getElementById("practice-streak").textContent = "6 Days";
+        $("latest-feedback-text").textContent =
+            "Complete a discussion to see your feedback here.";
 
-        document.getElementById("practice-time").textContent = "4.8 hrs";
+        $("view-report-btn").textContent = "Start a Discussion";
 
-        document.getElementById("confidence-score").textContent = "83%";
-
-        document.getElementById("grammar-score").textContent = "91%";
-
-        document.getElementById("vocabulary-score").textContent = "76%";
-
-        document.getElementById("fluency-score").textContent = "88%";
+        // Nothing to view yet: send them to start one instead
+        clicks["view-report-btn"] = "create-room.html";
 
     }
 
-    // ==========================================
-    // INITIALIZE PAGE
-    // ==========================================
+    else {
 
-    function init() {
+        const latest = scored[0];
 
-        loadUser();
+        const score = latest.feedback.scores.overall;
 
-        highlightCurrentPage();
+        $("latest-feedback-title").textContent =
+            score >= 85 ? "Great Progress! 🎉"
+            : score >= 70 ? "Good Work 👍"
+            : "Keep Practising 💪";
 
-        loadDashboardStats();
+        let text = "You scored " + score + "% on \"" + latest.topic + "\". " +
+                   "Next focus: " + latest.feedback.nextFocus + ".";
 
+        if (scored.length > 1) {
+
+            const change =
+                latest.feedback.scores.confidence - scored[1].feedback.scores.confidence;
+
+            text += " Your confidence " +
+                (change >= 0 ? "improved by " : "dropped by ") +
+                Math.abs(change) + "% compared to your last discussion.";
+        }
+
+        $("latest-feedback-text").textContent = text;
+
+        // "View Full Report" opens this session's report
+        clicks["view-report-btn"] = "feedback.html?id=" + encodeURIComponent(latest.id);
     }
-
-    init();
 
 });

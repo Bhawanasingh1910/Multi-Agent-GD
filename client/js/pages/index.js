@@ -38,7 +38,7 @@ function setupNavigation() {
 
         signupBtn.addEventListener("click", () => {
 
-            window.location.href = "auth.html";
+            window.location.href = "auth.html#signup";
 
         });
 
