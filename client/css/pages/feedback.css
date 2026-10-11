@@ -1,1126 +1,436 @@
 /* =====================================================
-   feedback.css
-   Part 1 : Layout | Header | Overall Score | Metrics
+   feedback.css  -  compact layout
+   Page = header, summary strip, score + 8 skills,
+   stats, filler/vocab (side by side), strengths/improve,
+   mentor, AI reviews, next practice, buttons.
 =====================================================*/
 
-
-/*====================================
-  PAGE HEADER
-====================================*/
-
-.feedback-header{
-
-    text-align:center;
-
-    padding:70px 8% 40px;
-
-}
-
-.feedback-header h1{
-
-    margin-bottom:15px;
-
-}
-
-.feedback-header p{
-
-    max-width:700px;
-
-    margin:auto;
-
-    color:var(--text-secondary);
-
-}
-
-
-
-/*====================================
-  SECTION SPACING
-====================================*/
-
+/* Every block shares the same width and a small gap.
+   (global.css gives <section> a large padding, so reset it.) */
+.feedback-header,
 .overall-score,
-.metrics,
+.metrics-section,
 .session-summary,
 .speaking-stats,
+.filler-analysis,
+.vocabulary-section,
 .feedback-columns,
 .mentor-feedback,
 .participant-feedback,
 .next-practice,
-.feedback-actions{
-
-    width:min(1400px,92%);
-
-    margin:60px auto;
-
-}
-
-
-
-/*====================================
-  OVERALL SCORE CARD
-====================================*/
-
-.score-card{
-
-    background:var(--surface-color);
-
-    border:1px solid var(--border-color);
-
-    border-radius:var(--radius-xl);
-
-    padding:40px;
-
-    text-align:center;
-
-    box-shadow:var(--shadow-md);
-
-    transition:var(--transition-normal);
-
-}
-
-.score-card:hover{
-
-    transform:translateY(-6px);
-
-    box-shadow:var(--shadow-lg);
-
-}
-
-
-
-/*====================================
-  SCORE CIRCLE
-====================================*/
-
-.score-circle{
-
-    width:180px;
-
-    height:180px;
-
-    margin:30px auto;
-
-    border-radius:50%;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    border:10px solid var(--primary-color);
-
-    color:var(--primary-color);
-
-    box-shadow:var(--shadow-primary);
-
-    position:relative;
-
-    background:var(--background-color);
-
-}
-
-.score-circle::before{
-
-    content:"";
-
-    position:absolute;
-
-    width:145px;
-
-    height:145px;
-
-    border-radius:50%;
-
-    background:var(--surface-color);
-
-}
-
-.score-circle h1{
-
-    position:relative;
-
-    z-index:2;
-
-    font-size:3rem;
-
-    font-weight:700;
-
-}
-
-.score-card p{
-
-    color:var(--text-secondary);
-
-}
-
-
-
-/*====================================
-  METRIC GRID
-====================================*/
-
-.metrics{
-
-    display:grid;
-
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-
-    gap:25px;
-
-}
-
-
-
-/*====================================
-  METRIC CARD
-====================================*/
-
-.metric-card{
-
-    background:var(--surface-color);
-
-    border:1px solid var(--border-color);
-
-    border-radius:var(--radius-lg);
-
-    padding:28px;
-
-    transition:var(--transition-normal);
-
-    box-shadow:var(--shadow-sm);
-
-}
-
-.metric-card:hover{
-
-    transform:translateY(-6px);
-
-    border-color:var(--primary-color);
-
-    box-shadow:var(--shadow-primary);
-
-}
-
-
-
-/*====================================
-  ICON
-====================================*/
-
-.metric-card i{
-
-    font-size:2rem;
-
-    color:var(--primary-color);
-
-    margin-bottom:18px;
-
-}
-
-
-
-/*====================================
-  TEXT
-====================================*/
-
-.metric-card h3{
-
-    margin-bottom:12px;
-
-}
-
-.metric-card h2{
-
-    color:var(--primary-color);
-
-    margin-bottom:18px;
-
-}
-
-
-
-/*====================================
-  PROGRESS BAR
-====================================*/
-
-.progress-bar{
-
-    width:100%;
-
-    height:10px;
-
-    border-radius:20px;
-
-    background:var(--border-color);
-
-    overflow:hidden;
-
-}
-
-.progress-fill{
-
-    height:100%;
-
-    width:0%;
-
-    border-radius:20px;
-
-    background:linear-gradient(
-        90deg,
-        var(--primary-color),
-        #38bdf8
-    );
-
-    transition:width .8s ease;
-
-}
-
-/* =====================================================
-   feedback.css
-   Part 2 : Session Summary | Speaking Statistics
-=====================================================*/
-
-
-/*====================================
-  SESSION SUMMARY
-====================================*/
-
-.session-summary h2{
-
-    margin-bottom:30px;
-
-}
-
-.summary-grid{
-
-    display:grid;
-
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-
-    gap:25px;
-
-}
-
-.summary-card{
-
-    background:var(--surface-color);
-
-    border:1px solid var(--border-color);
-
-    border-radius:var(--radius-lg);
-
-    padding:30px;
-
-    text-align:center;
-
-    transition:var(--transition-normal);
-
-    box-shadow:var(--shadow-sm);
-
-}
-
-.summary-card:hover{
-
-    transform:translateY(-6px);
-
-    border-color:var(--primary-color);
-
-    box-shadow:var(--shadow-primary);
-
-}
-
-.summary-card h3{
-
-    margin-bottom:15px;
-
-    color:var(--text-secondary);
-
-    font-size:1rem;
-
-}
-
-.summary-card p{
-
-    font-size:1.2rem;
-
-    font-weight:600;
-
-    color:var(--primary-color);
-
-}
-
-
-
-/*====================================
-  SPEAKING STATS
-====================================*/
-
-.speaking-stats h2{
-
-    margin-bottom:30px;
-
-}
-
-
-
-/*====================================
-  STATS GRID
-====================================*/
-
-.stats-grid{
-
-    display:grid;
-
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-
-    gap:25px;
-
-}
-
-
-
-/*====================================
-  STAT CARD
-====================================*/
-
-.stat-card{
-
-    background:var(--surface-color);
-
-    border:1px solid var(--border-color);
-
-    border-radius:var(--radius-lg);
-
-    padding:28px;
-
-    transition:var(--transition-normal);
-
-    box-shadow:var(--shadow-sm);
-
-}
-
-.stat-card:hover{
-
-    transform:translateY(-6px);
-
-    border-color:var(--primary-color);
-
-    box-shadow:var(--shadow-primary);
-
-}
-
-
-
-/*====================================
-  ICON
-====================================*/
-
-.stat-card i{
-
-    font-size:2rem;
-
-    color:var(--primary-color);
-
-    margin-bottom:18px;
-
-}
-
-
-
-/*====================================
-  LABEL
-====================================*/
-
-.stat-card h3{
-
-    margin-bottom:12px;
-
-    color:var(--text-secondary);
-
-    font-size:1rem;
-
-}
-
-
-
-/*====================================
-  VALUE
-====================================*/
-
-.stat-card p{
-
-    font-size:1.4rem;
-
-    font-weight:700;
-
-    color:var(--text-primary);
-
-}
-
-
-
-/*====================================
-  OPTIONAL BADGE
-====================================*/
-
-.stat-badge{
-
-    display:inline-block;
-
-    margin-top:15px;
-
-    padding:6px 12px;
-
-    border-radius:30px;
-
-    background:rgba(108,99,255,.12);
-
-    color:var(--primary-color);
-
-    font-size:.85rem;
-
-    font-weight:600;
-
-}
-
-
-
-/*====================================
-  SMALL ANIMATION
-====================================*/
-
-.summary-card,
-.stat-card{
-
-    animation:fadeUp .5s ease;
-
-}
-
-@keyframes fadeUp{
-
-    from{
-
-        opacity:0;
-
-        transform:translateY(20px);
-
-    }
-
-    to{
-
-        opacity:1;
-
-        transform:translateY(0);
-
-    }
-
-}
-
-/* =====================================================
-   feedback.css
-   Part 3 : Feedback Sections | Mentor | AI Reviews
-=====================================================*/
-
-
-/*====================================
-  STRENGTHS & IMPROVEMENTS
-====================================*/
-
-.feedback-columns{
-
-    display:grid;
-
-    grid-template-columns:repeat(auto-fit,minmax(420px,1fr));
-
-    gap:30px;
-}
-
-
-/*====================================
-  COMMON FEEDBACK CARD
-====================================*/
-
-.feedback-card{
-
-    background:var(--surface-color);
-
-    border:1px solid var(--border-color);
-
-    border-radius:var(--radius-lg);
-
-    padding:35px;
-
-    box-shadow:var(--shadow-sm);
-
-    transition:var(--transition-normal);
-
-}
-
-.feedback-card:hover{
-
-    transform:translateY(-6px);
-
-    border-color:var(--primary-color);
-
-    box-shadow:var(--shadow-primary);
-
-}
-
-
-
-/*====================================
-  CARD TITLE
-====================================*/
-
-.feedback-card h2{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:12px;
-
-    margin-bottom:25px;
-
-}
-
-.feedback-card h2 i{
-
-    color:var(--primary-color);
-
-}
-
-
-
-/*====================================
-  LIST
-====================================*/
-
-.feedback-card ul{
-
-    list-style:none;
-
-    padding:0;
-
-}
-
-.feedback-card li{
-
-    padding:14px 0;
-
-    border-bottom:1px solid var(--border-color);
-
-    color:var(--text-secondary);
-
-    line-height:1.7;
-
-}
-
-.feedback-card li:last-child{
-
-    border-bottom:none;
-
-}
-
-
-
-/*====================================
-  AI MENTOR SECTION
-====================================*/
-
-.mentor-feedback h2{
-
-    margin-bottom:25px;
-
-}
-
-
-
-/*====================================
-  MENTOR BOX
-====================================*/
-
-.mentor-box{
-
-    background:linear-gradient(
-        135deg,
-        rgba(108,99,255,.12),
-        rgba(59,130,246,.08)
-    );
-
-    border:1px solid rgba(108,99,255,.25);
-
-    border-left:6px solid var(--primary-color);
-
-    border-radius:var(--radius-xl);
-
-    padding:40px;
-
-    display:flex;
-
-    gap:25px;
-
-    align-items:flex-start;
-
-    box-shadow:var(--shadow-sm);
-
-}
-
-
-
-/*====================================
-  ROBOT ICON
-====================================*/
-
-.mentor-icon{
-
-    font-size:3rem;
-
-    color:var(--primary-color);
-
-    flex-shrink:0;
-
-}
-
-
-
-/*====================================
-  MENTOR TEXT
-====================================*/
-
-.mentor-box p{
-
-    color:var(--text-secondary);
-
-    line-height:1.9;
-
-    font-size:1rem;
-
-}
-
-
-
-/*====================================
-  PARTICIPANT FEEDBACK
-====================================*/
-
-.participant-feedback h2{
-
-    margin-bottom:30px;
-
-}
-
-
-
-/*====================================
-  REVIEW GRID
-====================================*/
-
-#participant-feedback-container{
-
-    display:grid;
-
-    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-
-    gap:25px;
-
-}
-
-
-
-/*====================================
-  REVIEW CARD
-====================================*/
-
-.participant-review{
-
-    background:var(--surface-color);
-
-    border:1px solid var(--border-color);
-
-    border-radius:var(--radius-lg);
-
-    padding:28px;
-
-    transition:var(--transition-normal);
-
-    box-shadow:var(--shadow-sm);
-
-}
-
-.participant-review:hover{
-
-    transform:translateY(-6px);
-
-    border-color:var(--primary-color);
-
-    box-shadow:var(--shadow-primary);
-
-}
-
-
-
-/*====================================
-  PARTICIPANT NAME
-====================================*/
-
-.participant-review h3{
-
-    color:var(--primary-color);
-
-    margin-bottom:15px;
-
-}
-
-
-
-/*====================================
-  REVIEW TEXT
-====================================*/
-
-.participant-review p{
-
-    color:var(--text-secondary);
-
-    line-height:1.8;
-
-}
-
-
-
-/*====================================
-  ENTRY ANIMATION
-====================================*/
-
-.feedback-card,
-.mentor-box,
-.participant-review{
-
-    animation:fadeUp .5s ease;
-
-}
-
-/* =====================================================
-   feedback.css
-   Part 4 : Recommendations | Buttons | Footer | Responsive
-=====================================================*/
-
-
-/*====================================
-  NEXT PRACTICE
-====================================*/
-
-.next-practice h2{
-
-    margin-bottom:30px;
-
-}
-
-.recommendation-grid{
-
-    display:grid;
-
-    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-
-    gap:25px;
-
-}
-
-.recommend-card{
-
-    background:var(--surface-color);
-
-    border:1px solid var(--border-color);
-
-    border-radius:var(--radius-lg);
-
-    padding:30px;
-
-    text-align:center;
-
-    transition:var(--transition-normal);
-
-    box-shadow:var(--shadow-sm);
-
+.feedback-actions,
+.two-col {
+    width: min(1100px, 92%);
+    margin: 0 auto 28px;
+    padding: 0;
 }
 
-.recommend-card:hover{
-
-    transform:translateY(-6px);
-
-    border-color:var(--primary-color);
-
-    box-shadow:var(--shadow-primary);
-
-}
-
-.recommend-card i{
-
-    font-size:2.3rem;
-
-    color:var(--primary-color);
-
-    margin-bottom:18px;
-
-}
-
-.recommend-card h3{
-
-    margin-bottom:12px;
-
-}
-
-.recommend-card p{
-
-    color:var(--text-secondary);
-
-    line-height:1.7;
-
-}
-
-
-
-/*====================================
-  ACTION BUTTONS
-====================================*/
-
-.feedback-actions{
-
-    display:flex;
-
-    justify-content:center;
-
-    gap:20px;
-
-    flex-wrap:wrap;
-
-}
-
-.feedback-actions button{
-
-    min-width:220px;
-
-    padding:16px 24px;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    gap:10px;
-
-    border-radius:var(--radius-md);
-
-    font-size:1rem;
-
-    font-weight:600;
-
-    transition:var(--transition-normal);
-
-}
-
-
-
-/*====================================
-  PRIMARY BUTTON
-====================================*/
-
-.primary-btn{
-
-    background:var(--primary-color);
-
-    color:var(--white);
-
-}
-
-.primary-btn:hover{
-
-    background:var(--primary-dark);
-
-    transform:translateY(-4px);
-
-    box-shadow:var(--shadow-primary);
-
-}
-
-
-
-/*====================================
-  SECONDARY BUTTON
-====================================*/
-
-.secondary-btn{
-
-    background:transparent;
-
-    color:var(--primary-color);
-
-    border:2px solid var(--primary-color);
-
-}
-
-.secondary-btn:hover{
-
-    background:var(--primary-color);
-
-    color:var(--white);
-
-    transform:translateY(-4px);
-
-}
-
-
-
-/*====================================
-  FOOTER
-====================================*/
-
-footer{
-
-    margin-top:80px;
-
-    padding:35px;
-
-    text-align:center;
-
-    border-top:1px solid var(--border-color);
-
-    background:var(--surface-color);
-
+section h2 {
+    font-size: 1.15rem;
+    margin-bottom: 14px;
+    text-align: left;
 }
-
-footer p{
-
-    color:var(--text-secondary);
 
+/* ---------- header ---------- */
+.feedback-header {
+    text-align: center;
+    padding: 36px 0 8px;
+    margin-bottom: 20px;
 }
-
-
-
-/*====================================
-  RESPONSIVE
-====================================*/
-
-@media (max-width:1100px){
 
-    .feedback-columns{
-
-        grid-template-columns:1fr;
-
-    }
-
+.page-badge {
+    display: inline-block;
+    padding: 5px 14px;
+    border-radius: 30px;
+    background: rgba(91, 95, 239, .12);
+    color: var(--primary-color);
+    font-size: .8rem;
+    font-weight: 600;
+    margin-bottom: 10px;
 }
-
-
-
-@media (max-width:768px){
-
-    .score-circle{
-
-        width:150px;
 
-        height:150px;
-
-    }
-
-    .score-circle::before{
-
-        width:120px;
-
-        height:120px;
-
-    }
-
-    .score-circle span,
-    .score-circle h1{
-
-        font-size:2.3rem;
-
-    }
-
-    .feedback-actions{
-
-        flex-direction:column;
-
-        align-items:center;
-
-    }
-
-    .feedback-actions button{
-
-        width:100%;
-
-        max-width:340px;
-
-    }
-
-    .mentor-box{
-
-        flex-direction:column;
-
-        text-align:center;
-
-    }
-
-    .mentor-icon{
-
-        margin:auto;
-
-    }
-
+.feedback-header h1 {
+    font-size: 1.9rem;
+    margin-bottom: 6px;
 }
 
-
-
-@media (max-width:550px){
-
-    .summary-grid,
-    .metrics-grid,
-    .stats-grid,
-    .recommendation-grid{
-
-        grid-template-columns:1fr;
-
-    }
-
+.feedback-header p {
+    color: var(--text-secondary);
+    font-size: .95rem;
+    max-width: 700px;
+    margin: 0 auto;
 }
-
-
-
-/*====================================
-  GLOBAL ANIMATION
-====================================*/
 
+/* ---------- shared card look ---------- */
+.score-card,
 .metric-card,
 .summary-card,
 .stat-card,
+.analysis-card,
+.word-card,
 .feedback-card,
 .mentor-box,
 .participant-review,
-.recommend-card{
-
-    animation:fadeUp .6s ease;
-
+.recommend-card {
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    box-shadow: var(--shadow-sm);
 }
 
-@keyframes fadeUp{
+/* ---------- overall score: grade left, circle right ---------- */
+.score-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 24px 32px;
+}
 
-    from{
+.score-left { flex: 1; text-align: left; }
 
-        opacity:0;
+.score-label {
+    font-size: .8rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    text-transform: uppercase;
+    letter-spacing: .05em;
+}
 
-        transform:translateY(20px);
+.score-left h2 { font-size: 1.6rem; margin: 6px 0; text-align: left; }
 
-    }
+.score-left p { color: var(--text-secondary); font-size: .95rem; line-height: 1.6; }
 
-    to{
+.score-circle {
+    width: 110px;
+    height: 110px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 8px solid var(--primary-color);
+    color: var(--primary-color);
+    font-size: 1.6rem;
+    font-weight: 700;
+    background: var(--surface-color);
+}
 
-        opacity:1;
+/* ---------- summary strip (topic / duration / language / people) ---------- */
+.session-summary h2 { display: none; }
 
-        transform:translateY(0);
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
 
-    }
+.summary-card {
+    padding: 12px 16px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: 10px;
+    align-items: center;
+}
 
+.summary-card i {
+    grid-row: span 2;
+    color: var(--primary-color);
+    font-size: 1.1rem;
+}
+
+.summary-card h3 {
+    font-size: .72rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    margin: 0;
+}
+
+.summary-card p {
+    font-size: .95rem;
+    font-weight: 600;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* ---------- 8 skill scores: 4 per row ---------- */
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+.metric-card {
+    padding: 14px 16px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    column-gap: 10px;
+    row-gap: 8px;
+    align-items: center;
+}
+
+.metric-card i { color: var(--primary-color); font-size: 1rem; }
+
+.metric-card h3 { font-size: .85rem; font-weight: 500; margin: 0; color: var(--text-secondary); }
+
+.metric-card h2 { font-size: 1.05rem; margin: 0; color: var(--primary-color); }
+
+.metric-card .progress-bar { grid-column: 1 / -1; }
+
+.progress-bar {
+    width: 100%;
+    height: 6px;
+    border-radius: 20px;
+    background: var(--border-color);
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0;
+    border-radius: 20px;
+    background: linear-gradient(90deg, var(--primary-color), #38bdf8);
+    transition: width .8s ease;
+}
+
+/* ---------- speaking statistics: 4 per row ---------- */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+.stat-card {
+    padding: 12px 16px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: 10px;
+    align-items: center;
+}
+
+.stat-card i {
+    grid-row: span 2;
+    color: var(--primary-color);
+    font-size: 1.1rem;
+}
+
+.stat-card h3 {
+    font-size: .72rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    margin: 0;
+}
+
+.stat-card h2 { font-size: 1.15rem; margin: 0; }
+
+/* ---------- filler + vocabulary side by side ---------- */
+.two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    align-items: start;
+}
+
+.two-col > section { width: 100%; margin: 0; }
+
+.analysis-card { padding: 6px 18px; }
+
+.analysis-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--border-color);
+    font-size: .92rem;
+    color: var(--text-secondary);
+}
+
+.analysis-item:last-child { border-bottom: none; }
+
+.analysis-item strong { color: var(--text-primary); }
+
+.analysis-item:first-child strong { color: var(--primary-color); }
+
+.vocabulary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.word-card { padding: 10px 14px; }
+
+.word-card h3,
+.word-card h4 {
+    font-size: .68rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+.word-card h4 { margin-top: 6px; }
+
+.word-card p { font-size: .95rem; margin: 0; font-weight: 600; }
+
+.word-card p + h4 + p { color: var(--primary-color); }
+
+/* ---------- strengths / improvements ---------- */
+.feedback-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.feedback-card { padding: 18px 22px; }
+
+.feedback-card h2 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.feedback-card h2 i { color: var(--primary-color); }
+
+.feedback-card ul { list-style: none; padding: 0; margin: 0; }
+
+.feedback-card li {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    font-size: .92rem;
+    line-height: 1.55;
+}
+
+.feedback-card li:last-child { border-bottom: none; }
+
+/* ---------- mentor ---------- */
+.mentor-box {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    padding: 18px 22px;
+    border-left: 5px solid var(--primary-color);
+    background: linear-gradient(135deg, rgba(91, 95, 239, .08), rgba(6, 182, 212, .05));
+}
+
+.mentor-icon { font-size: 1.8rem; color: var(--primary-color); flex-shrink: 0; }
+
+.mentor-box p { color: var(--text-secondary); line-height: 1.7; font-size: .95rem; }
+
+/* ---------- AI participant feedback ---------- */
+#participant-feedback-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 12px;
+}
+
+.participant-review { padding: 14px 18px; }
+
+.participant-review h3 { font-size: .95rem; color: var(--primary-color); margin: 0 0 6px; }
+
+.participant-review p { color: var(--text-secondary); font-size: .9rem; line-height: 1.55; margin: 0; }
+
+/* ---------- next practice ---------- */
+.recommendation-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.recommend-card {
+    padding: 14px 18px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: 12px;
+    align-items: center;
+}
+
+.recommend-card i {
+    grid-row: span 2;
+    font-size: 1.3rem;
+    color: var(--primary-color);
+}
+
+.recommend-card h3 {
+    font-size: .72rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    margin: 0;
+}
+
+.recommend-card p { font-size: .92rem; font-weight: 600; margin: 0; line-height: 1.4; }
+
+/* ---------- buttons ---------- */
+.feedback-actions {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.feedback-actions button {
+    min-width: 180px;
+    padding: 12px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    border-radius: 10px;
+    font-size: .95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-normal);
+}
+
+.primary-btn { background: var(--primary-color); color: var(--white); border: 2px solid var(--primary-color); }
+
+.primary-btn:hover { background: var(--primary-dark); }
+
+.secondary-btn { background: transparent; color: var(--primary-color); border: 2px solid var(--primary-color); }
+
+.secondary-btn:hover { background: var(--primary-color); color: var(--white); }
+
+footer {
+    margin-top: 20px;
+    padding: 20px;
+    text-align: center;
+    border-top: 1px solid var(--border-color);
+    background: var(--surface-color);
+}
+
+footer p { color: var(--text-secondary); font-size: .9rem; }
+
+/* ---------- smaller screens ---------- */
+@media (max-width: 950px) {
+    .metrics-grid,
+    .stats-grid,
+    .summary-grid { grid-template-columns: repeat(2, 1fr); }
+
+    .two-col,
+    .feedback-columns { grid-template-columns: 1fr; }
+
+    .recommendation-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 560px) {
+    .score-card { flex-direction: column-reverse; text-align: center; padding: 20px; }
+
+    .score-left { text-align: center; }
+
+    .score-left h2 { text-align: center; }
+
+    .metrics-grid,
+    .stats-grid,
+    .summary-grid { grid-template-columns: 1fr; }
+
+    .mentor-box { flex-direction: column; }
+
+    .feedback-actions button { width: 100%; }
 }
