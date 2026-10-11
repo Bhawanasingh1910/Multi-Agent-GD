@@ -111,12 +111,12 @@
 }
 
 .history-table tbody tr{
-    border-bottom:1px solid var(--border-color);
+    border-bottom:1px solid #eee;
     transition:.3s;
 }
 
 .history-table tbody tr:hover{
-    background:var(--surface-light);
+    background:#f8f9ff;
 }
 
 .history-table button{
