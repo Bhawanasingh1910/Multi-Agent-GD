@@ -23,10 +23,12 @@ Multi-Agent GD helps students practice placement group discussions with **2–5 
 
 - **Frontend:** HTML, CSS, JavaScript
 - **Backend:** Node.js, Express.js
-- **Database:** MongoDB
-- **AI:** Gemini / OpenAI API
-- **Voice:** Web Speech API
-- **Authentication:** JWT
+- **Database:** MongoDB (Mongoose)
+- **AI:** Groq API (`gpt-oss-20b`) for AI participants and feedback analysis
+- **Voice:** Web Speech API (Speech-to-Text) and Speech Synthesis (Text-to-Speech)
+- **Authentication:** JWT, with passwords hashed using bcrypt
+- **Security:** API rate limiting (express-rate-limit), CORS
+- **Deployment:** Render
 
 ## Future Enhancements
 
