@@ -35,7 +35,7 @@
 
     font-weight:700;
 
-    color:#6C63FF;
+    color:var(--primary-color);
 
 }
 
@@ -168,15 +168,15 @@ STATUS COLORS
 
 .speaking{
 
-    border:3px solid #6C63FF;
+    border:3px solid var(--primary-color);
 
-    box-shadow:0 0 25px rgba(108,99,255,.35);
+    box-shadow:0 0 25px rgba(31,45,74,.35);
 
 }
 
 .listening{
 
-    border:2px solid #ddd;
+    border:2px solid var(--border-color);
 
 }
 
@@ -211,7 +211,7 @@ VOICE BARS
 .voice-bars span{
     width:5px;
     height:8px;
-    background:#6C63FF;
+    background:var(--primary-color);
     border-radius:3px;
 }
 
@@ -283,7 +283,7 @@ TRANSCRIPT
 
     font-weight:600;
 
-    border-bottom:1px solid #eee;
+    border-bottom:1px solid var(--border-color);
 
 }
 
@@ -305,7 +305,7 @@ TRANSCRIPT
 
 .speaker-name{
 
-    color:#6C63FF;
+    color:var(--primary-color);
 
     font-weight:700;
 
@@ -345,7 +345,7 @@ CONTROLS
 
     border-radius:50%;
 
-    background:#6C63FF;
+    background:var(--primary-color);
 
     color:white;
 
@@ -362,9 +362,9 @@ CONTROLS
 }
 
 .speaking{
-    border:3px solid #6C63FF;
+    border:3px solid var(--primary-color);
     transform:scale(1.05);
-    box-shadow:0 0 30px rgba(108,99,255,.45);
+    box-shadow:0 0 30px rgba(31,45,74,.45);
 }
 
 .speaking .voice-bars span{

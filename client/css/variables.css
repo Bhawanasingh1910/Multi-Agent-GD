@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&display=swap");
+
 /* =====================================================
    variables.css
    Multi-Agent GD Design System
@@ -10,35 +12,35 @@
     ====================================*/
 /* Brand */
 
---primary-color: #5B5FEF;
---primary-dark: #4348D6;
---primary-light: #818CF8;
+--primary-color: #1F2D4A;
+--primary-dark: #131D33;
+--primary-light: #3D5278;
 
---secondary-color: #06B6D4;
---secondary-dark: #0891B2;
---secondary-light: #67E8F9;
+--secondary-color: #B08D57;
+--secondary-dark: #8F6F3E;
+--secondary-light: #D9C29A;
 
 
 /* Background */
 
---background-color: #F8FAFF;
---background-secondary: #F1F5FF;
+--background-color: #FAF7F1;
+--background-secondary: #F3EDE2;
 
 --surface-color: #FFFFFF;
---surface-light: #F8FAFC;
+--surface-light: #F7F3EA;
 
 
 /* Text */
 
---text-primary: #111827;
---text-secondary: #4B5563;
---text-muted: #9CA3AF;
+--text-primary: #1B2133;
+--text-secondary: #566074;
+--text-muted: #8E94A3;
 
 
 /* Border */
 
---border-color: #E5E7EB;
---border-light: #F1F5F9;
+--border-color: #E7DFD0;
+--border-light: #F1EBDF;
 
     /* Status */
     --success-color: #22C55E;
@@ -57,6 +59,7 @@
     ====================================*/
 
     --font-family: "Poppins", sans-serif;
+    --font-heading: "Playfair Display", Georgia, "Times New Roman", serif;
 
     --font-size-xs: 0.75rem;      /* 12px */
     --font-size-sm: 0.875rem;     /* 14px */
@@ -95,10 +98,10 @@
       BORDER RADIUS
     ====================================*/
 
-    --radius-sm: 6px;
-    --radius-md: 10px;
-    --radius-lg: 16px;
-    --radius-xl: 24px;
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
     --radius-round: 50px;
     --radius-circle: 50%;
 
@@ -108,13 +111,13 @@
       SHADOWS
     ====================================*/
 
-    --shadow-sm:0 2px 8px rgba(15,23,42,.05);
+    --shadow-sm:0 1px 3px rgba(60,45,20,.06);
 
-    --shadow-md:0 10px 25px rgba(15,23,42,.08);
+    --shadow-md:0 6px 18px rgba(60,45,20,.08);
 
-    --shadow-lg:0 18px 45px rgba(15,23,42,.12);
+    --shadow-lg:0 14px 34px rgba(60,45,20,.12);
 
-    --shadow-primary:0 15px 35px rgba(99,102,241,.22);
+    --shadow-primary:0 10px 24px rgba(31,45,74,.18);
 
 
     /*====================================
@@ -171,12 +174,12 @@
     ====================================*/
 
     --primary-gradient:
-linear-gradient(135deg,#6366F1,#8B5CF6);
+linear-gradient(135deg,#1F2D4A,#34486E);
 
 --hero-gradient:
-linear-gradient(135deg,#EEF2FF,#FFFFFF);
+linear-gradient(135deg,#F3EDE2,#FFFFFF);
 
 --card-gradient:
-linear-gradient(180deg,#FFFFFF,#F8FAFC);
+linear-gradient(180deg,#FFFFFF,#FBF9F4);
 
 }

@@ -24,6 +24,49 @@ document.addEventListener("DOMContentLoaded", () => {
     const dashboardBtn = document.getElementById("dashboard-btn");
 
     // ==========================
+    // Summary cards + achievements (real data)
+    // ==========================
+
+    (function fillSummary() {
+
+        const st = Store.stats();
+
+        const sessions = Store.getSessions()
+            .filter(s => s.feedback && s.feedback.scores)
+            .sort((a, b) => (a.endedAt || a.startedAt) - (b.endedAt || b.startedAt));
+
+        const set = (id, text) => { const el = document.getElementById(id); if (el) el.textContent = text; };
+
+        set("hist-count", st.count);
+        set("hist-average", st.hasScores ? st.average + "%" : "--");
+        set("hist-hours", Store.formatHours(st.hours));
+        set("hist-streak", st.streak + (st.streak === 1 ? " Day" : " Days"));
+
+        set("ach-streak-title", st.streak > 0 ? st.streak + "-Day Streak" : "Start a Streak");
+        set("ach-streak-text", st.streak > 1
+            ? "You practiced " + st.streak + " days in a row."
+            : "Practice on consecutive days to build a streak.");
+
+        if (sessions.length) {
+
+            set("ach-best-text", "Your highest discussion score is " +
+                Math.max(...sessions.map(s => s.feedback.scores.overall)) + "%.");
+        }
+
+        if (sessions.length >= 2) {
+
+            const diff = sessions[sessions.length - 1].feedback.scores.overall -
+                         sessions[sessions.length - 2].feedback.scores.overall;
+
+            set("ach-improve-text", diff === 0
+                ? "Your latest score matches your previous discussion."
+                : "Your latest score is " + Math.abs(diff) + " points " +
+                  (diff > 0 ? "higher" : "lower") + " than your previous discussion.");
+        }
+
+    })();
+
+    // ==========================
     // Saved discussions (newest data comes from finished GDs)
     // ==========================
 
