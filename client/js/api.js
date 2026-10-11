@@ -1,29 +1,40 @@
-// ==========================================
-// Multi-Agent GD
-// Shared config + browser storage helpers
-// ==========================================
-// Load this BEFORE the page script on every page:
-//   <script src="../js/api.js"></script>
+const API_BASE = window.GD_API_BASE ||
+    (window.location.protocol === "file:" ? "http://localhost:5000" : window.location.origin);
 
-// ------------------------------------------
-// API ADDRESS - change this one line when you
-// link your own API / deployed URL.
-// ------------------------------------------
-// (A page can also set window.GD_API_BASE before this file loads.)
-const API_BASE = window.GD_API_BASE || "http://localhost:5000";
+// Generic request: sends the login token, handles expired logins
+async function apiRequest(method, path, body, keepalive) {
 
-// POST JSON to the API and return the parsed JSON reply
-async function apiPost(path, body) {
+    const headers = { "Content-Type": "application/json" };
+
+    const token = localStorage.getItem("gdToken");
+
+    if (token) headers.Authorization = "Bearer " + token;
 
     const response = await fetch(API_BASE + path, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body)
+        method,
+        headers,
+        body: body === undefined ? undefined : JSON.stringify(body),
+        keepalive: !!keepalive
     });
+
+    // Token missing/expired -> back to the login page
+    if (response.status === 401 && token) {
+
+        Store.logout();
+
+        window.location.href = "auth.html";
+
+        throw new Error("Please log in again");
+    }
 
     return response.json();
 }
 
+// POST JSON to the API and return the parsed JSON reply
+function apiPost(path, body) {
+
+    return apiRequest("POST", path, body);
+}
 // ------------------------------------------
 // Browser storage (placeholder until the
 // real backend / database is linked)
@@ -58,25 +69,68 @@ const Store = {
         return Store.read("gdUser", null);
     },
 
-    setUser(user) {
+        // skipSync = true right after login (data just came from the server)
+    setUser(user, skipSync) {
 
         Store.write("gdUser", user);
 
         // Dashboard and older code read this key
         localStorage.setItem("username", user.name);
+
+        if (!skipSync && Store.getToken()) {
+
+            apiRequest("PUT", "/api/auth/me", {
+                name: user.name,
+                college: user.college,
+                language: user.language
+            }).catch(() => {});
+        }
+    },
+
+    getToken() {
+
+        return localStorage.getItem("gdToken");
+    },
+
+    setToken(token) {
+
+        localStorage.setItem("gdToken", token);
+    },
+
+    // Fetch this user's sessions from the server (and upload any that
+    // exist only in this browser, e.g. a failed earlier save)
+    async pullSessions() {
+
+        const result = await apiRequest("GET", "/api/sessions");
+
+        if (!result.success) return;
+
+        const server = result.sessions;
+
+        const serverIds = new Set(server.map(s => s.id));
+
+        const unsent = Store.getSessions().filter(s => !serverIds.has(s.id));
+
+        unsent.forEach(s => apiRequest("PUT", "/api/sessions/" + encodeURIComponent(s.id), s).catch(() => {}));
+
+        Store.saveSessions(server.concat(unsent));
     },
 
     logout() {
 
         localStorage.removeItem("gdUser");
         localStorage.removeItem("username");
+        localStorage.removeItem("gdToken");
+        localStorage.removeItem("gdSessions");
+        localStorage.removeItem("discussionConfig");
+        localStorage.removeItem("discussionSession");
+        sessionStorage.removeItem("gdSynced");
     },
 
     // Call at the top of pages that need a login
     requireLogin() {
 
-        if (!Store.getUser()) {
-
+                if (!Store.getUser() || !Store.getToken()) {
             window.location.href = "auth.html";
 
             return false;
@@ -160,6 +214,16 @@ const Store = {
         else list[index] = session;
 
         Store.saveSessions(list);
+        
+        // Save to the database too. keepalive lets it finish even if the
+        // page changes right after (End Discussion -> feedback page).
+        if (Store.getToken()) {
+
+            const body = JSON.stringify(session);
+
+            apiRequest("PUT", "/api/sessions/" + encodeURIComponent(session.id),
+                session, body.length < 60000).catch(() => {});
+        }
     },
 
     latestSession() {
@@ -247,3 +311,28 @@ const Store = {
             : (Math.round(hours * 10) / 10) + " hrs";
     }
 };
+
+
+// Once per browser tab: refresh history from the server, then reload the
+// page if it changed (so a user logging in on a new device sees old data)
+(async function syncOnce() {
+
+    if (!Store.getToken() || sessionStorage.getItem("gdSynced")) return;
+
+    sessionStorage.setItem("gdSynced", "1");
+
+    try {
+
+        const before = localStorage.getItem("gdSessions");
+
+        await Store.pullSessions();
+
+        if (localStorage.getItem("gdSessions") !== before &&
+            /(dashboard|history|profile)\.html/.test(window.location.pathname)) {
+
+            window.location.reload();
+        }
+    }
+
+    catch { /* offline: keep using the local copy */ }
+})();

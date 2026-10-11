@@ -250,68 +250,46 @@ document.addEventListener("DOMContentLoaded", () => {
 
         }
 
-        // ---- Accounts live in this browser only (placeholder until
-        // ---- the real auth API is linked). Passwords are hashed.
+        // ---- Real login / signup through the server (MongoDB) ----
 
-        const accounts = Store.getAccounts();
+        try {
 
-        const key = userEmail.toLowerCase();
+            submitBtn.disabled = true;
 
-        const hash = await Store.hashPassword(key, userPassword);
+            const result = await apiRequest(
+                "POST",
+                isLogin ? "/api/auth/login" : "/api/auth/signup",
+                isLogin
+                    ? { email: userEmail, password: userPassword }
+                    : { name, email: userEmail, password: userPassword }
+            );
 
-        if (isLogin) {
+            if (!result.success) {
 
-            const account = accounts[key];
-
-            if (!account) {
-
-                showError("No account found with this email. Please sign up.");
-
-                return;
-            }
-
-            if (account.hash !== hash) {
-
-                showError("Incorrect password.");
+                showError(result.message || "Something went wrong. Try again.");
 
                 return;
             }
 
-            Store.setUser({
-                name: account.name,
-                email: account.email,
-                college: account.college || "",
-                language: account.language || "English"
-            });
+            Store.logout();                       // clear any old local data
+            Store.setToken(result.token);
+            Store.setUser(result.user, true);
 
+            await Store.pullSessions();           // load this user's history
+
+            sessionStorage.setItem("gdSynced", "1");
         }
 
-        else {
+        catch (err) {
 
-            if (accounts[key]) {
+            showError("Cannot reach the server. Make sure it is running.");
 
-                showError("An account with this email already exists. Please login.");
+            return;
+        }
 
-                return;
-            }
+        finally {
 
-            accounts[key] = {
-                name,
-                email: userEmail,
-                hash,
-                college: "",
-                language: "English",
-                createdAt: new Date().toISOString()
-            };
-
-            Store.saveAccounts(accounts);
-
-            Store.setUser({
-                name,
-                email: userEmail,
-                college: "",
-                language: "English"
-            });
+            submitBtn.disabled = false;
         }
 
         authForm.reset();
@@ -350,7 +328,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // ==========================
 
     // Already logged in -> go straight to the dashboard
-    if (Store.getUser()) {
+    if (Store.getUser() && Store.getToken()) {
 
         window.location.href = "dashboard.html";
 
